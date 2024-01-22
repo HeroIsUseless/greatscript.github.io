@@ -66,6 +66,10 @@ more
 | `const f = function(arg) {...}`  | `f(arg: Arg) : (...)` |
 | `add(4, add(5, 6))`  | Same |
 
+more
+
+`add(a:0, b:0) : Int | (a+b)`
+
 #### Blocks
 ##### JAVASCRIPT
 ```
