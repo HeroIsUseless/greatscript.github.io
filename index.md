@@ -19,6 +19,7 @@
 | `const x = 5;`  | `x : 5` |
 | `var x = y;`  | `x! : y` |
 | `let x = 5; x = x + 1;`  | `x! : 5, x? : x + 1` |
+
 more
 `a: Int | undefined`
 
@@ -29,6 +30,7 @@ more
 | `'Hello world!'`  | Same |
 | `"hello " + "world"`  | `'hello ' + 'world'` |
 | ``` `hello ${message}` ```  | ``` 'hello `message`'``` |
+
 more
 `"Hello \n World"`
 
@@ -46,6 +48,7 @@ more
 | `point.x`  | Same |
 | `point.y = 30;`  | `point.y? : 30` |
 | `{...point, x: 30}`  | Same |
+
 more
 `{{...} : point, x : 30}`
 
@@ -80,6 +83,7 @@ myFun(x:Int, y:Int) : (
 |  ----  | ----  |
 | `if (a) {b} else {c}`  | `if(a, b, c)` |
 | `a ? b : c`  | `if(a, b, c)` |
+
 more
 `is(a)`
 
@@ -89,6 +93,7 @@ more
 | `const {a, b} = data`  | `{a, b} : data` |
 | `const [a, b] = data`  | `[a, b] : data` |
 | `const {a: aa, b: bb} = data`  | `{aa: a, bb: b} : data` |
+
 more
 `{aa: a || 0, bb: b || ''} : data`
 `{a, b!, c?} : data`
