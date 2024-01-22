@@ -21,6 +21,7 @@
 | `let x = 5; x = x + 1;`  | `x! : 5, x? : x + 1` |
 
 more
+
 `a: Int | undefined`
 
 #### String & Character
@@ -32,13 +33,17 @@ more
 | ``` `hello ${message}` ```  | ``` 'hello `message`'``` |
 
 more
-`"Hello \n World"`
+
+```
+"Hello
+World"
+```
 
 #### Boolean
 |  JAVASCRIPT   | GREATSCRIPT  |
 |  ----  | ----  |
-| `true`, `false`  | `True`, `False` |
-| `!true`  | `~True` |
+| `true`, `false`  | Same |
+| `!true`  | `~true` |
 
 #### Object/Record
 |  JAVASCRIPT   | GREATSCRIPT  |
@@ -50,6 +55,7 @@ more
 | `{...point, x: 30}`  | Same |
 
 more
+
 `{{...} : point, x : 30}`
 
 #### Function
@@ -85,6 +91,7 @@ myFun(x:Int, y:Int) : (
 | `a ? b : c`  | `if(a, b, c)` |
 
 more
+
 `is(a)`
 
 #### Destructuring
@@ -95,5 +102,7 @@ more
 | `const {a: aa, b: bb} = data`  | `{aa: a, bb: b} : data` |
 
 more
+
 `{aa: a || 0, bb: b || ''} : data`
+
 `{a, b!, c?} : data`
