@@ -46,7 +46,7 @@
 #### Function
 |  JAVASCRIPT   | GREATSCRIPT  |
 |  ----  | ----  |
-| `arg => retVal`  | `(arg) : retVal` |
+| `arg => retVal`  | `(arg: Arg) : retVal` |
 | `function named(arg) {...}`  | `named(arg: Arg) : (...)` |
 | `const f = function(arg) {...}`  | `f(arg: Arg) : (...)` |
 | `add(4, add(5, 6))`  | Same |
