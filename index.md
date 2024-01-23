@@ -43,7 +43,7 @@ World"
 |  JAVASCRIPT   | GREATSCRIPT  |
 |  ----  | ----  |
 | `true`, `false`  | Same |
-| `!true`  | `~true` |
+| `!true`  | Same |
 
 #### Object/Record
 |  JAVASCRIPT   | GREATSCRIPT  |
@@ -76,7 +76,7 @@ more
 const myFun = (x, y) => {
   const doubleX = x + x;
   const doubleY = y + y;
-  return doubleX + doubleY
+  return doubleX + doubleY;
 };
 ```
 ##### GREATSCRIPT
@@ -94,19 +94,16 @@ myFun(x:Int, y:Int) : (
 | `if (a) {b} else {c}`  | `if(a, b, c)` |
 | `a ? b : c`  | `if(a, b, c)` |
 
-more
-
-`is(a)`
 
 #### Destructuring
 |  JAVASCRIPT   | GREATSCRIPT  |
 |  ----  | ----  |
 | `const {a, b} = data`  | `{a, b} : data` |
 | `const [a, b] = data`  | `[a, b] : data` |
-| `const {a: aa, b: bb} = data`  | `{aa: a, bb: b} : data` |
+| `const {a: aa, b: bb} = data`  | `{aa is a, bb is b} : data` |
 
 more
 
-`{aa: a || 0, bb: b || ''} : data`
+`{aa is a: 0, bb is b: ''} : data`
 
 `{a, b!, c?} : data`
