@@ -113,7 +113,7 @@ more
 ```
 import React, {useState} from 'react';
 
-export function countView() {
+export function CountView() {
   const [count, setCount] = useState(0);
   const onBtnClick = () => {
     setCount(count + 1);
@@ -125,7 +125,7 @@ export function countView() {
 ```
 {useState} : React : import('react')
 
-countView() : (
+CountView() : (
   [count, setCount] : useState(0)
   onBtnClick() : (
     setCount(count + 1)
