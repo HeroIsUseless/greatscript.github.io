@@ -118,7 +118,7 @@ export function CountView() {
   const onBtnClick = () => {
     setCount(count + 1);
   };
-  return <Button>{count}</Button>;
+  return <Button onClick={onBtnClick}>{count}</Button>;
 }
 ```
 ##### GREATSCRIPT
@@ -130,6 +130,6 @@ CountView() : (
   onBtnClick() : (
     setCount(count + 1)
   )
-  <Button>{count}</Button>
+  <Button onClick={onBtnClick}>{count}</Button>
 )
 ```
