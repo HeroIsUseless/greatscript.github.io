@@ -107,3 +107,29 @@ more
 `{aa = a: 0, bb = b: ''} : data`
 
 `{a, b!, c?} : data`
+
+#### Use with React
+##### JAVASCRIPT
+```
+import React, {useState} from 'react';
+
+export function countView() {
+  const [count, setCount] = useState(0);
+  const onBtnClick = () => {
+    setCount(count + 1);
+  };
+  return <Button>{count}</Button>;
+}
+```
+##### GREATSCRIPT
+```
+{useState} = React : import('react')
+
+countView() : (
+  [count, setCount] : useState(0)
+  onBtnClick() : (
+    setCount(count + 1)
+  )
+  <Button>{count}</Button>
+)
+```
