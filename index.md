@@ -123,7 +123,7 @@ export function countView() {
 ```
 ##### GREATSCRIPT
 ```
-{useState} = React : import('react')
+{useState} : React : import('react')
 
 countView() : (
   [count, setCount] : useState(0)
