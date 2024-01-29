@@ -1,15 +1,16 @@
 
-/* description: Parses and executes mathematical expressions. */
+/* description: Parses greatscript. */
 
 /* lexical grammar */
 %lex
 %%
+[\s\t]                {return yytext[0]==='\n' ? 'ENTER' : undefined}
 "#".*\n                 /* skip */
-[\s\t\n]              /* skip */
+\n                    {console.log('zws n');return 'ENTER'}
 [0-9]+("."[0-9]+)?\b  return 'NUMBER'
 "import"              return 'IMPORT'
 "'".*"'"              return 'STRING'
-[a-z]+                return 'VAR'
+[a-zA-Z]+                return 'VAR'
 "PI"                  return 'PI'
 "E"                   return 'E'
 <<EOF>>               return 'EOF'
@@ -37,8 +38,8 @@ start
     ;
 
 statements
-    : statement statements
-        {$$ = `${$1}${$2}`;}
+    : statement ENTER statements
+        {$$ = `${$1}${$3}`;}
     | statement ',' statements
         {$$ = `${$1}${$3}`;}
     | EOF
@@ -46,6 +47,8 @@ statements
 
 statement 
     : assignment
+        {$$ = $1;}
+    | expression
         {$$ = $1;}
     ;
 
@@ -56,36 +59,36 @@ assignment
         {$$ = $1;}
     | assignVariable2
         {$$ = $1;}
+    | assignImport
+        {$$ = $1;}
     | assignFunction
         {$$ = $1;}
     | assignObj
         {$$ = $1;}
-    | assignImport
-        {$$ = $1;}
     ;
 
 assignConst
-    : VAR ':' e
-        {$$ = `const ${$1} = ${$3};\n`; /* ES2015(ES6) 新增const */}
+    : VAR ':' expression
+        {$$ = `export const ${$1} = ${$3};\n`; /* ES2015(ES6) 新增const */}
     ;
 
 assignVariable
-    : VAR '!' ':' e
-        {$$ = `let ${$1} = ${$4};\n`; /* ES2015(ES6) 新增let */}
+    : VAR '!' ':' expression
+        {$$ = `export let ${$1} = ${$4};\n`; /* ES2015(ES6) 新增let */}
     ;
 
 assignVariable2
-    : VAR '?' ':' e
+    : VAR '?' ':' expression
         {$$ = `${$1} = ${$4};\n`;}
     ;
 
 assignFunction
-    : VAR '(' ')' ':' e
-        {$$ = `const ${$1} = () => {\n  return ${$5};\n};\n`;}
+    : VAR '(' ')' ':' expression
+        {$$ = `export const ${$1} = () => {\n  return ${$5};\n};\n`;}
     ;
 
 assignObj 
-    : '{' VAR '}' ':' e 
+    : '{' VAR '}' ':' expression 
         {$$ = `const ${$2} = (${$5}).${$2};\n`;}
     ;
 
@@ -94,23 +97,18 @@ assignImport
         {$$ = `import ${$1} from ${$5};\n`;}
     ;
 
-expressions
-    : e EOF
-        {$$ = $1;}
-    ;
-
-e
-    : e '+' e
+expression
+    : expression '+' expression
         {$$ = $1+' + '+$3;}
-    | e '-' e
+    | expression '-' expression
         {$$ = $1+' - '+$3;}
-    | e '*' e
+    | expression '*' expression
         {$$ = $1+' * '+$3;}
-    | e '/' e
+    | expression '/' expression
         {$$ = $1+' / '+$3;}
-    | e '%'
+    | expression '%'
         {$$ = $1+' / 100';}
-    | '(' e ')'
+    | '(' expression ')'
         {$$ = `(${$2})`;}
     | NUMBER
         {$$ = String(yytext);}

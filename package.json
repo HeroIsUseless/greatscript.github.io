@@ -4,8 +4,13 @@
   "description": "great script",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "jison greatscript.jison && node greatscript.js test.gs"
+    "test1": "node greatscript.js test1_annotation.gs",
+    "test2": "node greatscript.js test2_const.gs",
+    "test3": "node greatscript.js test3_variable.gs",
+    "test4": "node greatscript.js test4_function.gs",
+    "test5": "node greatscript.js test5_import.gs",
+    "test6": "node greatscript.js test6_destruct.gs",
+    "dev": "jison greatscript.jison && npm run test1 && npm run test2 && npm run test3 && npm run test4 && npm run test5 && npm run test6"
   },
   "repository": {
     "type": "git",
