@@ -100,7 +100,7 @@ myFun(x:Int, y:Int) : (
 |  ----  | ----  |
 | `const {a, b} = data`  | `{a, b} : data` |
 | `const [a, b] = data`  | `[a, b] : data` |
-| `const {a: aa, b: bb} = data`  | `{a = aa, b = bb} : data` |
+| `const {a: aa, b: bb} = data`  | `{aa : a, bb : b} : data` |
 
 more
 
