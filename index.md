@@ -17,8 +17,8 @@
 |  JAVASCRIPT   | GREATSCRIPT  |
 |  ----  | ----  |
 | `const x = 5;`  | `x : 5` |
-| `var x = y;`  | `x! : y` |
-| `let x = 5; x = x + 1;`  | `x! : 5, x? : x + 1` |
+| `var x = y;`  | `x? : y` |
+| `let x = 5; x = x + 1;`  | `x? : 5, x = x + 1` |
 
 more
 
@@ -48,10 +48,10 @@ World"
 #### Object/Record
 |  JAVASCRIPT   | GREATSCRIPT  |
 |  ----  | ----  |
-| no types  | `point() : {x: Int, y!: Int}` |
+| no types  | `point() : {x: Int, y?: Int}` |
 | `{x: 30, y: 20}`  | Same |
 | `point.x`  | Same |
-| `point.y = 30;`  | `point.y? : 30` |
+| `point.y = 30;`  | Same |
 | `{...point, x: 30}`  | Same |
 
 more
