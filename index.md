@@ -18,11 +18,11 @@
 |  ----  | ----  |
 | `const x = 5;`  | `x : 5` |
 | `var x = y;`  | `x? : y` |
-| `let x = 5; x = x + 1;`  | `x? : 5, x = x + 1` |
+| `let x = 5; x = x + 1;`  | `x! : 5, x = x + 1` |
 
 more
 
-`a: Int | undefined`
+`a: Number | undefined`
 
 #### String & Character
 |  JAVASCRIPT   | GREATSCRIPT  |
@@ -48,7 +48,7 @@ World"
 #### Object/Record
 |  JAVASCRIPT   | GREATSCRIPT  |
 |  ----  | ----  |
-| no types  | `point() : {x: Int, y?: Int}` |
+| no types  | `point() : {x: Int, y!: Int}` |
 | `{x: 30, y: 20}`  | Same |
 | `point.x`  | Same |
 | `point.y = 30;`  | Same |
@@ -68,7 +68,7 @@ more
 
 more
 
-`add(a:0, b:0) : Int | (a+b)`
+`add(a:0, b:0) : Int & (a+b)`
 
 #### Blocks
 ##### JAVASCRIPT
@@ -81,7 +81,7 @@ const myFun = (x, y) => {
 ```
 ##### GREATSCRIPT
 ```
-myFun(x:Int, y:Int) : (
+myFun(x:Number, y:Number) : (
   doubleX : x + x
   doubleY : y + y
   doubleX + doubleY
@@ -103,8 +103,6 @@ myFun(x:Int, y:Int) : (
 | `const {a: aa, b: bb} = data`  | `{aa : a, bb : b} : data` |
 
 more
-
-`{a = aa: 0, b = bb: ''} : data`
 
 `{a, b!, c?} : data`
 
