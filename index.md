@@ -22,7 +22,7 @@
 
 more
 
-`a: Number | undefined`
+`a #Number | undefined : 0`
 
 #### String & Character
 |  JAVASCRIPT   | GREATSCRIPT  |
