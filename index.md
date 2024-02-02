@@ -68,7 +68,7 @@ more
 
 more
 
-`add(a #number : 0, b #number : 0) #number : (a+b)`
+`add(a #number : 0, b #number : 0) #number : async(a+b)`
 
 #### Blocks
 ##### JAVASCRIPT
@@ -94,6 +94,30 @@ myFun(x #number, y #number) : (
 | `if (a) {b} else {c}`  | `if(a, b, c)` |
 | `a ? b : c`  | `if(a, b, c)` |
 
+more
+
+```
+if exp (
+  ...
+) else if exp (
+  ...
+) else (
+  ...
+)
+```
+```
+switch var (
+  case val1 (
+    ...
+  )
+  case val2 (
+    ...
+  )
+  default (
+    ...
+  )
+)
+```
 
 #### Destructuring
 |  JAVASCRIPT   | GREATSCRIPT  |
