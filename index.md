@@ -22,7 +22,7 @@
 
 more
 
-`a #Number | undefined : 0`
+`a #Number : 0`
 
 #### String & Character
 |  JAVASCRIPT   | GREATSCRIPT  |
@@ -104,7 +104,7 @@ myFun(x #number, y #number) : (
 
 more
 
-`{a, b!, c?} : data`
+`{a, b!, c! #number} : data`
 
 #### Use with React
 ##### JAVASCRIPT
