@@ -1,20 +1,20 @@
-# GreatScript
+# JS#
 ## Overview
 ### Comparison to JS
 #### Semicolon
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | Rules enforced by linter/formatter  | No semicolon needed! |
 
 #### Comments
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | `// Line comment`  | Same |
 | `/* Comment */`  | Same |
 | `/** Doc Comment */`  | Same |
 
 #### Variable
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | `const x = 5;`  | `x : 5` |
 | `var x = y;`  | `x! : y` |
@@ -25,7 +25,7 @@ more
 `a #Number : 0`
 
 #### String & Character
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | `"Hello world!"`  | `'Hello world!'` |
 | `'Hello world!'`  | Same |
@@ -40,13 +40,13 @@ World"
 ```
 
 #### Boolean
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | `true`, `false`  | Same |
 | `!true`  | Same |
 
 #### Object/Record
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | no types  | `point() : {x #number : 30, y! #number : 20}` |
 | `{x: 30, y: 20}`  | Same |
@@ -59,7 +59,7 @@ more
 `{{...} : point, x : 30}`
 
 #### Function
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | `arg => retVal`  | `(arg #Arg) : retVal` |
 | `function named(arg) {...}`  | `named(arg #Arg) : (...)` |
@@ -79,7 +79,7 @@ const myFun = (x, y) => {
   return doubleX + doubleY;
 };
 ```
-##### GREATSCRIPT
+##### JS#
 ```
 myFun(x #number, y #number) : (
   doubleX : x + x
@@ -89,7 +89,7 @@ myFun(x #number, y #number) : (
 ```
 
 #### If-else
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | `if (a) {b} else {c}`  | `if(a, b, c)` |
 | `a ? b : c`  | `if(a, b, c)` |
@@ -120,7 +120,7 @@ switch var (
 ```
 
 #### Destructuring
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | `const {a, b} = data`  | `{a, b} : data` |
 | `const [a, b] = data`  | `[a, b] : data` |
@@ -143,7 +143,7 @@ export function CountView() {
   return <Button onClick={onBtnClick}>{count}</Button>;
 }
 ```
-##### GREATSCRIPT
+##### JS#
 ```
 {useState} : React : import('react')
 
