@@ -9,15 +9,15 @@
 #### Comments
 |  JAVASCRIPT   | GREATSCRIPT  |
 |  ----  | ----  |
-| `// Line comment`  | `# Line comment` |
-| `/* Comment */`  | `## Comment ##` |
-| `/** Doc Comment */`  | `#DocFunc comment` |
+| `// Line comment`  | Same |
+| `/* Comment */`  | Same |
+| `/** Doc Comment */`  | Same |
 
 #### Variable
 |  JAVASCRIPT   | GREATSCRIPT  |
 |  ----  | ----  |
 | `const x = 5;`  | `x : 5` |
-| `var x = y;`  | `x? : y` |
+| `var x = y;`  | `x! : y` |
 | `let x = 5; x = x + 1;`  | `x! : 5, x = x + 1` |
 
 more
@@ -48,7 +48,7 @@ World"
 #### Object/Record
 |  JAVASCRIPT   | GREATSCRIPT  |
 |  ----  | ----  |
-| no types  | `point() : {x: Int, y!: Int}` |
+| no types  | `point() : {x #number : 30, y! #number : 20}` |
 | `{x: 30, y: 20}`  | Same |
 | `point.x`  | Same |
 | `point.y = 30;`  | Same |
@@ -61,14 +61,14 @@ more
 #### Function
 |  JAVASCRIPT   | GREATSCRIPT  |
 |  ----  | ----  |
-| `arg => retVal`  | `(arg: Arg) : retVal` |
-| `function named(arg) {...}`  | `named(arg: Arg) : (...)` |
-| `const f = function(arg) {...}`  | `f(arg: Arg) : (...)` |
+| `arg => retVal`  | `(arg #Arg) : retVal` |
+| `function named(arg) {...}`  | `named(arg #Arg) : (...)` |
+| `const f = function(arg) {...}`  | `f(arg #Arg) : (...)` |
 | `add(4, add(5, 6))`  | Same |
 
 more
 
-`add(a:0, b:0) : Int & (a+b)`
+`add(a #number : 0, b #number : 0) #number : (a+b)`
 
 #### Blocks
 ##### JAVASCRIPT
@@ -81,7 +81,7 @@ const myFun = (x, y) => {
 ```
 ##### GREATSCRIPT
 ```
-myFun(x:Number, y:Number) : (
+myFun(x #number, y #number) : (
   doubleX : x + x
   doubleY : y + y
   doubleX + doubleY
@@ -128,6 +128,6 @@ CountView() : (
   onBtnClick() : (
     setCount(count + 1)
   )
-  <Button onClick={onBtnClick}>{count}</Button>
+  <Button onClick:onBtnClick>`count`</Button>
 )
 ```
