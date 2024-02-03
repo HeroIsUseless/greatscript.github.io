@@ -7,6 +7,7 @@
 [\s\t] /* skip */
 "//".*\n                 /* skip */
 'if' return 'IF'
+'while' return 'WHILE'
 [0-9]+("."[0-9]+)?\b  return 'NUMBER'
 "import"              return 'IMPORT'
 "'".*"'"              return 'STRING'
@@ -46,6 +47,8 @@ code
         {$$ = `${$2}`;}
     | IF expression '(' codes ')'
         {$$ = `if(${$2}){\n${$4}}`;}
+    | WHILE expression '(' codes ')'
+        {$$ = `while(${$2}){\n${$4}}`;}
     ;
 
 codes
