@@ -10,7 +10,8 @@
     "test4": "node greatscript.js test4_function.gs",
     "test5": "node greatscript.js test5_import.gs",
     "test6": "node greatscript.js test6_destruct.gs",
-    "dev": "jison greatscript.jison && npm run test1 && npm run test2 && npm run test3 && npm run test4 && npm run test5 && npm run test6"
+    "test7": "node greatscript.js test7_if.gs",
+    "dev": "jison greatscript.jison && npm run test1 && npm run test2 && npm run test3 && npm run test4 && npm run test5 && npm run test6 && npm run test7"
   },
   "repository": {
     "type": "git",

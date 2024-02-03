@@ -4,9 +4,9 @@
 /* lexical grammar */
 %lex
 %%
-[\s\t]                {return yytext[0]==='\n' ? 'ENTER' : undefined}
-"#".*\n                 /* skip */
-\n                    {console.log('zws n');return 'ENTER'}
+[\s\t] /* skip */
+"//".*\n                 /* skip */
+'if' return 'IF'
 [0-9]+("."[0-9]+)?\b  return 'NUMBER'
 "import"              return 'IMPORT'
 "'".*"'"              return 'STRING'
@@ -32,32 +32,33 @@
 %% /* language grammar */
 
 start
-    : statements
-        { typeof console !== 'undefined' ? console.log($1) : print($1);
-          return $1; }
-    ;
-
-statements
-    : statement ENTER statements
-        {$$ = `${$1}${$3}`;}
-    | statement ',' statements
-        {$$ = `${$1}${$3}`;}
+    : codes EOF
+        { console.log($1); return $1; }
     | EOF
     ;
 
-statement 
+code
     : assignment
         {$$ = $1;}
     | expression
         {$$ = $1;}
+    | '(' codes ')'
+        {$$ = `${$2}`;}
+    | IF expression '(' codes ')'
+        {$$ = `if(${$2}){\n${$4}}`;}
+    ;
+
+codes
+    : code ',' codes
+        {$$ = `${$1}${$3}`}
+    | code 
+        {$$ = `${$1}\n`}
     ;
 
 assignment
     : assignConst
         {$$ = $1;}
     | assignVariable
-        {$$ = $1;}
-    | assignVariable2
         {$$ = $1;}
     | assignImport
         {$$ = $1;}
@@ -70,16 +71,15 @@ assignment
 assignConst
     : VAR ':' expression
         {$$ = `export const ${$1} = ${$3};\n`; /* ES2015(ES6) 新增const */}
+    | VAR '#' VAR ':' expression
+        {$$ = `export const ${$1} = ${$5};\n`;}
     ;
 
 assignVariable
     : VAR '!' ':' expression
         {$$ = `export let ${$1} = ${$4};\n`; /* ES2015(ES6) 新增let */}
-    ;
-
-assignVariable2
-    : VAR '?' ':' expression
-        {$$ = `${$1} = ${$4};\n`;}
+    | VAR '!' '#' VAR ':' expression
+        {$$ = `export const ${$1} = ${$5};\n`;}
     ;
 
 assignFunction
@@ -108,8 +108,6 @@ expression
         {$$ = $1+' / '+$3;}
     | expression '%'
         {$$ = $1+' / 100';}
-    | '(' expression ')'
-        {$$ = `(${$2})`;}
     | NUMBER
         {$$ = String(yytext);}
     | VAR
