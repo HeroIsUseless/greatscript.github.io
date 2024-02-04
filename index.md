@@ -48,7 +48,7 @@ World"
 #### Object/Record
 |  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
-| no types  | `point() : {x #number : 30, y! #number : 20}` |
+| no types  | `point() : {x: 30 #number, y!: 20 #number}` |
 | `{x: 30, y: 20}`  | Same |
 | `point.x`  | Same |
 | `point.y = 30;`  | Same |
@@ -68,7 +68,7 @@ more
 
 more
 
-`add(a #number : 0, b #number : 0) #number : async(a+b)`
+`add(a: 0 #number, b: 0 #number) #number : async(a+b)`
 
 #### Blocks
 ##### JAVASCRIPT
@@ -128,7 +128,7 @@ switch var (
 
 more
 
-`{a, b!, c! #number} : data`
+`{a, b!, c!} : data # {a #number, b! #string, c! #number}`
 
 #### Use with React
 ##### JAVASCRIPT
