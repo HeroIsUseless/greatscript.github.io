@@ -23,20 +23,18 @@
 more
 
 ```
-a : 0 # number // 类型放到后面意味着前面所有变量都是该类型的，方便一些，例如：
-a : b : c : 0 # number // a, b, c均是number类型
+a # number : 0
 ```
 
 ```
-a # number : 0 // 类型放到前面意味着可以精确定义每个变量的类型，例如：
-a # number : b! # number | string : 0
+a : 0 # number // 【草案】该定义方式实在是太漂亮了
 ```
 
 解释：
 
 为什么用问号定义变量？
 
-因为JS的可选链语法 ?. ，比较相似
+因为JS的可选链语法 ?. ，比较相似，寓意该变量说不定可能是undefined之类的，感叹号在TS中为非空断言声明，跟变量危险含义相悖，故不用
 
 #### String & Character
 |  JAVASCRIPT   | JS#  |
