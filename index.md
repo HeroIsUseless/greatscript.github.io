@@ -126,8 +126,8 @@ myFun(x #number, y #number) #number : (
 #### If-else
 |  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
-| `if (a) {b} else {c}`  | `if(a, b, c)` |
-| `a ? b : c`  | `if(a, b, c)` |
+| `if (a) {b} else {c}`  | `if a (b) else (c)` |
+| `a ? b : c`  | `if a b else c` |
 
 more
 
