@@ -16,26 +16,19 @@
 #### Variable
 |  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
-| `const x = 5;`  | `x : 5` |
-| `var x = y;`  | `x? : y` |
-| `let x = 5; x = x + 1;`  | `x? : 5, x = x + 1` |
+| `const x = 5;`  | `x! : 5` |
+| `var x = y;`  | `x : y` |
+| `let x = 5; x = x + 1;`  | `x : 5, x = x + 1` |
 
 more
 
 ```
 // 类型定义和值定义在顺序上并无特殊规定，但不同顺序有一些区别：
 a : 0 # number // 类型在值之后，表示值统一定义，类型统一定义，例如：
-x? : y? : z? : 0 # number // 这样会少写一些类型，比较方便
+x : y : z : 0 # number // 这样会少写一些类型，比较方便
 a # number : 0 // 类型在值之前，表示值统一定义，类型各自定义，例如：
-a # number : b? # number | string : 0 // 这样会比较精确
+a # number : b # number | string : 0 // 这样会比较精确
 ```
-
-解释：
-
-为什么用问号定义变量？
-
-因为与JS的可选链语法 ?. ，比较相似，寓意该变量说不定可能是undefined之类的。
-感叹号！在TS中为非空断言声明，跟变量危险含义相悖，故不用感叹号！。
 
 #### String & Character
 |  JAVASCRIPT   | JS#  |
