@@ -24,6 +24,8 @@ more
 
 `a : 0 # number`
 
+`a # number : 0`
+
 #### String & Character
 |  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
