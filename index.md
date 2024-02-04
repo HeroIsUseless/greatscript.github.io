@@ -38,6 +38,7 @@ a? # number : 0
 a? # number : b? # number | string : 0
 ```
 解释：
+
 **常量/变量声明为什么用冒号**
 
 第一是为了没有let/const但还能与变量赋值相区分，二是与JS的object的属性声明相统一。
