@@ -22,9 +22,15 @@
 
 more
 
-`a : 0 # number`
+```
+a : 0 # number // 类型放到后面意味着前面所有变量都是该类型的，方便一些，例如：
+a : b : c : 0 # number // a, b, c均是number类型
+```
 
-`a # number : 0`
+```
+a # number : 0 // 类型放到前面意味着可以精确定义每个变量的值，例如：
+a # number : b! # number | string : 0
+```
 
 #### String & Character
 |  JAVASCRIPT   | JS#  |
