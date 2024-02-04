@@ -77,27 +77,27 @@ assignment
 
 assignConst
     : VAR ':' expression
-        {$$ = `export const ${$1} = ${$3};\n`; zws_tmp = zws_code_return = $1; /* ES2015(ES6) 新增const */}
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = ${$3};\n`; zws_tmp = zws_code_return = $1; /* ES2015(ES6) 新增const */}
     | VAR '#' VAR ':' expression
-        {$$ = `export const ${$1} = ${$5};\n`; zws_tmp = zws_code_return = $1;}
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = ${$5};\n`; zws_tmp = zws_code_return = $1;}
     | VAR ':' assignConst
-        {$$ = `${$3}export const ${$1} = ${zws_tmp};\n`; zws_code_return = $1;}
+        {$$ = `${$3}${zws_block_layer === 0? 'export ' : ''}const ${$1} = ${zws_tmp};\n`; zws_code_return = $1;}
     | VAR '#' VAR ':' assignConst
-        {$$ = `${$5}export const ${$1} = ${zws_tmp};\n`; zws_code_return = $1;}
+        {$$ = `${$5}${zws_block_layer === 0? 'export ' : ''}const ${$1} = ${zws_tmp};\n`; zws_code_return = $1;}
     ;
 
 assignVariable
     : VAR '!' ':' expression
-        {$$ = `export let ${$1} = ${$4};\n`; /* ES2015(ES6) 新增let */}
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}let ${$1} = ${$4};\n`; /* ES2015(ES6) 新增let */}
     | VAR '!' '#' VAR ':' expression
-        {$$ = `export const ${$1} = ${$6};\n`;}
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = ${$6};\n`;}
     ;
 
 assignFunction
     : VAR '(' ')' ':' expression
-        {$$ = `export const ${$1} = () => ${$5};\n`;}
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = () => ${$5};\n`;}
     | VAR '(' ')' ':' '(' codes ')'
-        {$$ = `export const ${$1} = () => {\n ${$6} return ${zws_code_return};\n};\n`;}
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = () => {\n ${$6} return ${zws_code_return};\n};\n`;}
     ;
 
 assignArr 
@@ -193,3 +193,4 @@ expression
 var zws_tmp = '';
 var zws_code_head = 'var zws_code_return = \'\';\n';
 var zws_code_return = '';
+var zws_block_layer = 0;
