@@ -104,7 +104,7 @@ const myFun = (x, y) => {
 ```
 ##### JS#
 ```
-myFun(x #number, y #number) : (
+myFun(x #number, y #number) #number : (
   doubleX : x + x
   doubleY : y + y
   doubleX + doubleY
