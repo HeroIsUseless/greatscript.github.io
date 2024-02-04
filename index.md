@@ -61,7 +61,7 @@ World"
 #### Object/Record
 |  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
-| no types  | `point() : {x: 30 #number, y!: 20 #number}` |
+| no types  | `point() : {x: 30 #number, y?: 20 #number}` |
 | `{x: 30, y: 20}`  | Same |
 | `point.x`  | Same |
 | `point.y = 30;`  | Same |
@@ -141,9 +141,9 @@ switch var (
 
 more
 
-`{a, b!, c!} : data # {a #number, b! #string, c! #number}`
+`{a, b?, c?} # {a #number, b? #string, c? #number} : data`
 
-`{a #number, b! #string, c! #number} : data`
+`{a #number, b? #string, c? #number} : data`
 
 #### Use with React
 ##### JAVASCRIPT
