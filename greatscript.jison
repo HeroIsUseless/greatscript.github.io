@@ -38,11 +38,18 @@ start
     | EOF
     ;
 
+codes
+    : codes ',' code
+        {$$ = `${$1}${$3}`}
+    | code 
+        {$$ = `${$1}\n`}
+    ;
+
 code
     : assignment
         {$$ = $1;}
     | expression
-        {$$ = $1;}
+        {$$ = `${$1};`;}
     | '(' codes ')'
         {$$ = `${$2}`;}
     | IF expression '(' codes ')'
@@ -51,23 +58,18 @@ code
         {$$ = `while(${$2}){\n${$4}}`;}
     ;
 
-codes
-    : code ',' codes
-        {$$ = `${$1}${$3}`}
-    | code 
-        {$$ = `${$1}\n`}
-    ;
-
 assignment
     : assignConst
         {$$ = $1;}
     | assignVariable
         {$$ = $1;}
-    | assignImport
-        {$$ = $1;}
     | assignFunction
         {$$ = $1;}
     | assignObj
+        {$$ = $1;}
+    | assignArr
+        {$$ = $1;}
+    | assignImport
         {$$ = $1;}
     | assignJSX
         {$$ = $1;}
@@ -93,17 +95,47 @@ assignVariable
 
 assignFunction
     : VAR '(' ')' ':' expression
-        {$$ = `export const ${$1} = () => {\n  return ${$5};\n};\n`;}
+        {$$ = `export const ${$1} = () => ${$5};\n`;}
+    | VAR '(' ')' ':' '(' codes ')'
+        {$$ = `export const ${$1} = () => {\n return ${$6}\n};\n`;}
     ;
 
-assignObj 
-    : '{' VAR '}' ':' expression 
+assignArr 
+    : '[' VarList ']' ':' expression 
         {$$ = `const ${$2} = (${$5}).${$2};\n`;}
     ;
 
+assignObj 
+    : '{' VarList '}' ':' expression 
+        {$$ = `const ${$2} = (${$5}).${$2};\n`;}
+    ;
+
+VarList
+    : VarList ',' VAR 
+        {$$ = `${$1}, ${$3}`}
+    | VAR
+        {$$ = `${$1}`}
+    ;
+
 assignImport
+    : importMulti
+        {$$ = `import ${$1}\n`;}
+    ;
+
+importMulti
+    : VAR ':' importBase
+        {$$ = `${1}, ${$3}`}
+    | '{' VarList '}' ':' importBase
+        {$$ = `{${$2}}, ${$5}`}
+    | importBase
+        {$$ = $1;}
+    ;
+
+importBase
     : VAR ':' IMPORT '(' STRING ')'
-        {$$ = `import ${$1} from ${$5};\n`;}
+        {$$ = `${$1} from ${$5};\n`;}
+    | '{' VarList '}' ':' IMPORT '(' STRING ')'
+        {$$ = `{${$2}} from ${$7};\n`;}
     ;
 
 assignJSX
