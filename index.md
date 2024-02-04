@@ -28,7 +28,7 @@ a : b : c : 0 # number // a, b, c均是number类型
 ```
 
 ```
-a # number : 0 // 类型放到前面意味着可以精确定义每个变量的值，例如：
+a # number : 0 // 类型放到前面意味着可以精确定义每个变量的类型，例如：
 a # number : b! # number | string : 0
 ```
 
