@@ -22,7 +22,7 @@
 
 more
 
-`a #Number : 0`
+`a : 0 # Number`
 
 #### String & Character
 |  JAVASCRIPT   | JS#  |
