@@ -129,6 +129,7 @@ switch var (
 more
 
 `{a, b!, c!} : data # {a #number, b! #string, c! #number}`
+
 `{a #number, b! #string, c! #number} : data`
 
 #### Use with React
