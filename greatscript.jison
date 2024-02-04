@@ -34,7 +34,7 @@
 
 start
     : codes EOF
-        { console.log($1); return $1; }
+        { var res = zws_code_head + $1; console.log(res); return res; }
     | EOF
     ;
 
@@ -42,14 +42,14 @@ codes
     : codes ',' code
         {$$ = `${$1}${$3}`}
     | code 
-        {$$ = `${$1}\n`}
+        {$$ = `${$1}`}
     ;
 
 code
     : assignment
         {$$ = $1;}
     | expression
-        {$$ = `${$1};`;}
+        {$$ = `zws_code_return = ${$1};\n`; zws_code_return='zws_code_return';}
     | '(' codes ')'
         {$$ = `${$2}`;}
     | IF expression '(' codes ')'
@@ -77,13 +77,13 @@ assignment
 
 assignConst
     : VAR ':' expression
-        {$$ = `export const ${$1} = ${$3};\n`; zws_tmp = $1; /* ES2015(ES6) 新增const */}
+        {$$ = `export const ${$1} = ${$3};\n`; zws_tmp = zws_code_return = $1; /* ES2015(ES6) 新增const */}
     | VAR '#' VAR ':' expression
-        {$$ = `export const ${$1} = ${$5};\n`; zws_tmp = $1;}
+        {$$ = `export const ${$1} = ${$5};\n`; zws_tmp = zws_code_return = $1;}
     | VAR ':' assignConst
-        {$$ = `${$3}export const ${$1} = ${zws_tmp};\n`}
+        {$$ = `${$3}export const ${$1} = ${zws_tmp};\n`; zws_code_return = $1;}
     | VAR '#' VAR ':' assignConst
-        {$$ = `${$5}export const ${$1} = ${zws_tmp};\n`}
+        {$$ = `${$5}export const ${$1} = ${zws_tmp};\n`; zws_code_return = $1;}
     ;
 
 assignVariable
@@ -97,7 +97,7 @@ assignFunction
     : VAR '(' ')' ':' expression
         {$$ = `export const ${$1} = () => ${$5};\n`;}
     | VAR '(' ')' ':' '(' codes ')'
-        {$$ = `export const ${$1} = () => {\n return ${$6}\n};\n`;}
+        {$$ = `export const ${$1} = () => {\n ${$6} return ${zws_code_return};\n};\n`;}
     ;
 
 assignArr 
@@ -191,3 +191,5 @@ expression
 %%
 
 var zws_tmp = '';
+var zws_code_head = 'var zws_code_return = \'\';\n';
+var zws_code_return = '';
