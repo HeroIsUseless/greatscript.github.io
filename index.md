@@ -1,5 +1,9 @@
 # JS#
 ## Overview
+### 设计纲领
+* 必须比TS的代码量少，尽量比JS的代码量少
+* TS没有实现的特性，JS#也没必要实现，首先保证JS#代码量少的特性
+* 语法不可以与JS/TS的语法相悖，尽量相似/统一
 ### Comparison to JS
 #### Semicolon
 |  JAVASCRIPT   | JS#  |
