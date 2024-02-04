@@ -23,13 +23,13 @@
 more
 
 ```
-a # number : 0 // 类型在值之前，表示值统一定义，类型各自定义，例如：
-a # number : b? # number | string : 0
+a : 0 # number // 类型在值之后，表示值统一定义，类型统一定义，例如：
+a : b? : 0 # number
 ```
 
 ```
-a : 0 # number // 类型在值之后，表示值统一定义，类型统一定义，例如：
-a : b? : 0 # number
+a # number : 0 // 类型在值之前，表示值统一定义，类型各自定义，例如：
+a # number : b? # number | string : 0
 ```
 
 解释：
