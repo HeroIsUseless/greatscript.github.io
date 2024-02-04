@@ -17,8 +17,8 @@
 |  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | `const x = 5;`  | `x : 5` |
-| `var x = y;`  | `x! : y` |
-| `let x = 5; x = x + 1;`  | `x! : 5, x = x + 1` |
+| `var x = y;`  | `x? : y` |
+| `let x = 5; x = x + 1;`  | `x? : 5, x = x + 1` |
 
 more
 
@@ -31,6 +31,12 @@ a : b : c : 0 # number // a, b, c均是number类型
 a # number : 0 // 类型放到前面意味着可以精确定义每个变量的类型，例如：
 a # number : b! # number | string : 0
 ```
+
+解释：
+
+为什么用问号定义变量？
+
+因为JS的可选链语法 ?. ，比较相似
 
 #### String & Character
 |  JAVASCRIPT   | JS#  |
