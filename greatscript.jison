@@ -94,10 +94,18 @@ assignVariable
     ;
 
 assignFunction
-    : VAR '(' ')' ':' expression
-        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = () => ${$5};\n`;}
-    | VAR '(' ')' ':' '(' codes ')'
-        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = () => {\n ${$6} return ${zws_code_return};\n};\n`;}
+    : VAR '(' ')' enterBlock ':' expression leaveBlock
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = () => ${$6};\n`;}
+    | VAR '(' ')' enterBlock ':' '(' codes ')' leaveBlock
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = () => {\n ${$7} return ${zws_code_return};\n};\n`;}
+    ;
+
+enterBlock
+    : {zws_block_layer += 1;}
+    ;
+
+leaveBlock
+    : {zws_block_layer -= 1;}
     ;
 
 assignArr 
