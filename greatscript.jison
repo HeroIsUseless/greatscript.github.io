@@ -69,6 +69,8 @@ assignment
         {$$ = $1;}
     | assignObj
         {$$ = $1;}
+    | assignJSX
+        {$$ = $1;}
     ;
 
 assignConst
@@ -104,6 +106,37 @@ assignImport
         {$$ = `import ${$1} from ${$5};\n`;}
     ;
 
+assignJSX
+    : tagBegin tagEnd 
+        {$$ = `${$1}${$2}`}
+    | tagBegin assignJSX tagEnd 
+        {$$ = `${$1}${$2}${$3}`}
+    ;
+
+tagBegin
+    : '<' VAR '>'
+        {$$ = `<${$2}>`}
+    | '<' VAR tagParams '>'
+        {$$ = `<${$2} ${$3}>`}
+    ;
+
+tagEnd
+    : '<' '/' VAR '>'
+        {$$ = `</${$3}>`}
+    ;
+
+tagParams
+    : tagParams tagParam
+        {$$ = `${$1} ${$2}`}
+    | tagParam
+        {$$ = `${$1}`}
+    ;
+
+tagParam
+    : VAR ':' expression
+        {$$ = `${$1}={${$3}}`}
+    ;
+
 expression
     : expression '+' expression
         {$$ = $1+' + '+$3;}
@@ -118,6 +151,8 @@ expression
     | NUMBER
         {$$ = String(yytext);}
     | VAR
+        {$$ = String(yytext);}
+    | STRING
         {$$ = String(yytext);}
     ;
 
