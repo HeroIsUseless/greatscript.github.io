@@ -34,7 +34,7 @@
 
 start
     : codes EOF
-        { var res = zws_code_head + $1; console.log(res); return res; }
+        { var res = $1 + zws_code_tail; console.log(res); return res; }
     | EOF
     ;
 
@@ -47,9 +47,9 @@ codes
 
 code
     : assignment
-        {$$ = $1;}
+        {$$ = '  '.repeat(zws_block_layer) + $1;}
     | expression
-        {$$ = `zws_code_return = ${$1};\n`; zws_code_return='zws_code_return';}
+        {$$ = '  '.repeat(zws_block_layer) + `zws_code_return = ${$1};\n`; zws_code_return='zws_code_return';}
     | '(' codes ')'
         {$$ = `${$2}`;}
     | IF expression '(' codes ')'
@@ -97,7 +97,7 @@ assignFunction
     : VAR '(' ')' enterBlock ':' expression leaveBlock
         {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = () => ${$6};\n`;}
     | VAR '(' ')' enterBlock ':' '(' codes ')' leaveBlock
-        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = () => {\n ${$7} return ${zws_code_return};\n};\n`;}
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = () => {\n${$7}${'  '.repeat(zws_block_layer)}return ${zws_code_return};\n};\n`;}
     ;
 
 enterBlock
@@ -199,6 +199,6 @@ expression
 %%
 
 var zws_tmp = '';
-var zws_code_head = 'var zws_code_return = \'\';\n';
+var zws_code_tail = 'var zws_code_return;\n';
 var zws_code_return = '';
 var zws_block_layer = 0;
