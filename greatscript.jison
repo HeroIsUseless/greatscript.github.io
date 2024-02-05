@@ -4,9 +4,10 @@
 /* lexical grammar */
 %lex
 %%
-[\s\t]                {return yytext[0]==='\n' ? 'ENTER' : undefined}
-"#".*\n                 /* skip */
-\n                    {console.log('zws n');return 'ENTER'}
+[\s\t] /* skip */
+"//".*\n                 /* skip */
+'if' return 'IF'
+'while' return 'WHILE'
 [0-9]+("."[0-9]+)?\b  return 'NUMBER'
 "import"              return 'IMPORT'
 "'".*"'"              return 'STRING'
@@ -32,24 +33,29 @@
 %% /* language grammar */
 
 start
-    : statements
-        { typeof console !== 'undefined' ? console.log($1) : print($1);
-          return $1; }
-    ;
-
-statements
-    : statement ENTER statements
-        {$$ = `${$1}${$3}`;}
-    | statement ',' statements
-        {$$ = `${$1}${$3}`;}
+    : codes EOF
+        { var res = $1 + zws_code_tail; console.log(res); return res; }
     | EOF
     ;
 
-statement 
+codes
+    : codes ',' code
+        {$$ = `${$1}${$3}`}
+    | code 
+        {$$ = `${$1}`}
+    ;
+
+code
     : assignment
-        {$$ = $1;}
+        {$$ = '  '.repeat(zws_block_layer) + $1;}
     | expression
-        {$$ = $1;}
+        {$$ = '  '.repeat(zws_block_layer) + `zws_code_return = ${$1};\n`; zws_code_return='zws_code_return';}
+    | '(' codes ')'
+        {$$ = `${$2}`;}
+    | IF expression '(' codes ')'
+        {$$ = `if(${$2}){\n${$4}}`;}
+    | WHILE expression '(' codes ')'
+        {$$ = `while(${$2}){\n${$4}}`;}
     ;
 
 assignment
@@ -57,44 +63,118 @@ assignment
         {$$ = $1;}
     | assignVariable
         {$$ = $1;}
-    | assignVariable2
-        {$$ = $1;}
-    | assignImport
-        {$$ = $1;}
     | assignFunction
         {$$ = $1;}
     | assignObj
+        {$$ = $1;}
+    | assignArr
+        {$$ = $1;}
+    | assignImport
+        {$$ = $1;}
+    | assignJSX
         {$$ = $1;}
     ;
 
 assignConst
     : VAR ':' expression
-        {$$ = `export const ${$1} = ${$3};\n`; /* ES2015(ES6) 新增const */}
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = ${$3};\n`; zws_tmp = zws_code_return = $1; /* ES2015(ES6) 新增const */}
+    | VAR '#' VAR ':' expression
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = ${$5};\n`; zws_tmp = zws_code_return = $1;}
+    | VAR ':' assignConst
+        {$$ = `${$3}${zws_block_layer === 0? 'export ' : ''}const ${$1} = ${zws_tmp};\n`; zws_code_return = $1;}
+    | VAR '#' VAR ':' assignConst
+        {$$ = `${$5}${zws_block_layer === 0? 'export ' : ''}const ${$1} = ${zws_tmp};\n`; zws_code_return = $1;}
     ;
 
 assignVariable
     : VAR '!' ':' expression
-        {$$ = `export let ${$1} = ${$4};\n`; /* ES2015(ES6) 新增let */}
-    ;
-
-assignVariable2
-    : VAR '?' ':' expression
-        {$$ = `${$1} = ${$4};\n`;}
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}let ${$1} = ${$4};\n`; /* ES2015(ES6) 新增let */}
+    | VAR '!' '#' VAR ':' expression
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = ${$6};\n`;}
     ;
 
 assignFunction
-    : VAR '(' ')' ':' expression
-        {$$ = `export const ${$1} = () => {\n  return ${$5};\n};\n`;}
+    : VAR '(' ')' enterBlock ':' expression leaveBlock
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = () => ${$6};\n`;}
+    | VAR '(' ')' enterBlock ':' '(' codes ')' leaveBlock
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = () => {\n${$7}${'  '.repeat(zws_block_layer)}return ${zws_code_return};\n};\n`;}
     ;
 
-assignObj 
-    : '{' VAR '}' ':' expression 
+enterBlock
+    : {zws_block_layer += 1;}
+    ;
+
+leaveBlock
+    : {zws_block_layer -= 1;}
+    ;
+
+assignArr 
+    : '[' VarList ']' ':' expression 
         {$$ = `const ${$2} = (${$5}).${$2};\n`;}
     ;
 
+assignObj 
+    : '{' VarList '}' ':' expression 
+        {$$ = `const ${$2} = (${$5}).${$2};\n`;}
+    ;
+
+VarList
+    : VarList ',' VAR 
+        {$$ = `${$1}, ${$3}`}
+    | VAR
+        {$$ = `${$1}`}
+    ;
+
 assignImport
+    : importMulti
+        {$$ = `import ${$1}\n`;}
+    ;
+
+importMulti
+    : VAR ':' importBase
+        {$$ = `${1}, ${$3}`}
+    | '{' VarList '}' ':' importBase
+        {$$ = `{${$2}}, ${$5}`}
+    | importBase
+        {$$ = $1;}
+    ;
+
+importBase
     : VAR ':' IMPORT '(' STRING ')'
-        {$$ = `import ${$1} from ${$5};\n`;}
+        {$$ = `${$1} from ${$5};\n`;}
+    | '{' VarList '}' ':' IMPORT '(' STRING ')'
+        {$$ = `{${$2}} from ${$7};\n`;}
+    ;
+
+assignJSX
+    : tagBegin tagEnd 
+        {$$ = `${$1}${$2}`}
+    | tagBegin assignJSX tagEnd 
+        {$$ = `${$1}${$2}${$3}`}
+    ;
+
+tagBegin
+    : '<' VAR '>'
+        {$$ = `<${$2}>`}
+    | '<' VAR tagParams '>'
+        {$$ = `<${$2} ${$3}>`}
+    ;
+
+tagEnd
+    : '<' '/' VAR '>'
+        {$$ = `</${$3}>`}
+    ;
+
+tagParams
+    : tagParams tagParam
+        {$$ = `${$1} ${$2}`}
+    | tagParam
+        {$$ = `${$1}`}
+    ;
+
+tagParam
+    : VAR ':' expression
+        {$$ = `${$1}={${$3}}`}
     ;
 
 expression
@@ -108,11 +188,17 @@ expression
         {$$ = $1+' / '+$3;}
     | expression '%'
         {$$ = $1+' / 100';}
-    | '(' statements ')'
-        {$$ = `(${$2})`;}
     | NUMBER
         {$$ = String(yytext);}
     | VAR
         {$$ = String(yytext);}
+    | STRING
+        {$$ = String(yytext);}
     ;
 
+%%
+
+var zws_tmp = '';
+var zws_code_tail = 'var zws_code_return;\n';
+var zws_code_return = '';
+var zws_block_layer = 0;

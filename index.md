@@ -1,31 +1,66 @@
-# GreatScript
+# JS#
 ## Overview
+### 设计纲领
+* 必须比TS的代码量少，尽量比JS的代码量少
+* TS没有实现的特性，JS#也没必要实现，首先保证JS#代码量少的特性
+* 语法不可以与JS/TS的语法相悖，尽量相似/统一
 ### Comparison to JS
 #### Semicolon
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | Rules enforced by linter/formatter  | No semicolon needed! |
 
 #### Comments
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
-| `// Line comment`  | `# Line comment` |
-| `/* Comment */`  | `## Comment ##` |
-| `/** Doc Comment */`  | `#DocFunc comment` |
+| `// Line comment`  | Same |
+| `/* Comment */`  | Same |
+| `/** Doc Comment */`  | Same |
 
 #### Variable
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | `const x = 5;`  | `x : 5` |
-| `var x = y;`  | `x! : y` |
-| `let x = 5; x = x + 1;`  | `x! : 5, x? : x + 1` |
+| `var x = y;`  | `x? : y` |
+| `let x = 5; x = x + 1;`  | `x? : 5, x = x + 1` |
 
 more
 
-`a: Int | undefined`
+```
+// 类型定义和值定义的不同顺序有一些区别：
+// 类型在值之后，表示类型是对值的断言，例如断言getValue()返回的必然是number类型的：
+a : getValue() # number
+// 这样可以少写一些类型，比较方便：
+x? : y? : z? : 0 # number
+// 类型在值之前，表示该变量的类型，例如：
+a? # number : 0
+// 更多的：
+a? # number : b? # number | string : 0
+```
+解释：
+
+**常量/变量声明为什么用冒号**
+
+第一是为了没有let/const但还能与变量赋值相区分，二是与JS的object的属性声明相统一。
+
+~~**为什么用感叹号！定义常量**~~
+
+~~因为在TS中，感叹号！为非空断言符，JS#也准备将感叹号！作为非空断言符，非空断言与常量的稳定性有相似的语义，因此用感叹号！定义常量~~
+
+**普通定义的都是常量**
+
+一方便是为了安全性，另一方面与函数/类的定义相统一，而且常量定义更简单诱导你尽量都用常量。
+
+**为什么用问号？定义变量？**
+
+因为在JS中，有可选链 ?. 的语法，蕴含着undefined的变化语义，与变量有相似的语义，因此用问号？定义变量。
+
+**为什么用 # 定义类型？**
+
+因为类型本质上是一种注释，在转译成JS后会像普通注释一样完全剔除，并且在其他语言例如Python中，#作为注释符，因此我设定在JS#，用#来定义类型，作为一种可以放入代码逻辑中的“注释”，与一般用//开头的普通注释相区分。
 
 #### String & Character
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | `"Hello world!"`  | `'Hello world!'` |
 | `'Hello world!'`  | Same |
@@ -40,18 +75,18 @@ World"
 ```
 
 #### Boolean
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | `true`, `false`  | Same |
 | `!true`  | Same |
 
 #### Object/Record
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
-| no types  | `point() : {x: Int, y!: Int}` |
+| no types  | `point() : {x: 30 #number, y?: 20 #number}` |
 | `{x: 30, y: 20}`  | Same |
 | `point.x`  | Same |
-| `point.y = 30;`  | `point.y? : 30` |
+| `point.y = 30;`  | Same |
 | `{...point, x: 30}`  | Same |
 
 more
@@ -59,16 +94,16 @@ more
 `{{...} : point, x : 30}`
 
 #### Function
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
-| `arg => retVal`  | `(arg: Arg) : retVal` |
-| `function named(arg) {...}`  | `named(arg: Arg) : (...)` |
-| `const f = function(arg) {...}`  | `f(arg: Arg) : (...)` |
+| `arg => retVal`  | `(arg #Arg) : retVal` |
+| `function named(arg) {...}`  | `named(arg #Arg) : (...)` |
+| `const f = function(arg) {...}`  | `f(arg #Arg) : (...)` |
 | `add(4, add(5, 6))`  | Same |
 
 more
 
-`add(a:0, b:0) : Int | (a+b)`
+`add(a: 0 #number, b: 0 #number) #number : async(a+b)`
 
 #### Blocks
 ##### JAVASCRIPT
@@ -79,9 +114,9 @@ const myFun = (x, y) => {
   return doubleX + doubleY;
 };
 ```
-##### GREATSCRIPT
+##### JS#
 ```
-myFun(x:Int, y:Int) : (
+myFun(x #number, y #number) #number : (
   doubleX : x + x
   doubleY : y + y
   doubleX + doubleY
@@ -89,14 +124,38 @@ myFun(x:Int, y:Int) : (
 ```
 
 #### If-else
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
-| `if (a) {b} else {c}`  | `if(a, b, c)` |
-| `a ? b : c`  | `if(a, b, c)` |
+| `if (a) {b} else {c}`  | `if a (b) else (c)` |
+| `a ? b : c`  | `if a b else c` |
 
+more
+
+```
+if exp (
+  ...
+) else if exp (
+  ...
+) else (
+  ...
+)
+```
+```
+switch var (
+  case val1 (
+    ...
+  )
+  case val2 (
+    ...
+  )
+  default (
+    ...
+  )
+)
+```
 
 #### Destructuring
-|  JAVASCRIPT   | GREATSCRIPT  |
+|  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | `const {a, b} = data`  | `{a, b} : data` |
 | `const [a, b] = data`  | `[a, b] : data` |
@@ -104,9 +163,9 @@ myFun(x:Int, y:Int) : (
 
 more
 
-`{a = aa: 0, b = bb: ''} : data`
+`{a, b?, c?} # {a #number, b? #string, c? #number} : data`
 
-`{a, b!, c?} : data`
+`{a #number, b? #string, c? #number} : data`
 
 #### Use with React
 ##### JAVASCRIPT
@@ -121,7 +180,7 @@ export function CountView() {
   return <Button onClick={onBtnClick}>{count}</Button>;
 }
 ```
-##### GREATSCRIPT
+##### JS#
 ```
 {useState} : React : import('react')
 
@@ -130,6 +189,6 @@ CountView() : (
   onBtnClick() : (
     setCount(count + 1)
   )
-  <Button onClick={onBtnClick}>{count}</Button>
+  <Button onClick:onBtnClick>`count`</Button>
 )
 ```

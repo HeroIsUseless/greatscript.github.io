@@ -75,61 +75,129 @@ var greatscript = (function(){
 var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,4],$V1=[1,15],$V2=[1,13],$V3=[1,16],$V4=[1,14],$V5=[1,22],$V6=[6,7],$V7=[1,19],$V8=[1,20],$V9=[1,21],$Va=[1,23],$Vb=[6,7,27,28,29,30,31],$Vc=[2,26],$Vd=[1,33],$Ve=[6,7,27,28],$Vf=[6,7,27,28,29,30];
 var parser = {trace: function trace () { },
 yy: {},
-symbols_: {"error":2,"start":3,"statements":4,"statement":5,"ENTER":6,",":7,"EOF":8,"assignment":9,"expression":10,"assignConst":11,"assignVariable":12,"assignVariable2":13,"assignImport":14,"assignFunction":15,"assignObj":16,"VAR":17,":":18,"!":19,"?":20,"(":21,")":22,"{":23,"}":24,"IMPORT":25,"STRING":26,"+":27,"-":28,"*":29,"/":30,"%":31,"NUMBER":32,"$accept":0,"$end":1},
-terminals_: {2:"error",6:"ENTER",7:",",8:"EOF",17:"VAR",18:":",19:"!",20:"?",21:"(",22:")",23:"{",24:"}",25:"IMPORT",26:"STRING",27:"+",28:"-",29:"*",30:"/",31:"%",32:"NUMBER"},
-productions_: [0,[3,1],[4,3],[4,3],[4,1],[5,1],[5,1],[9,1],[9,1],[9,1],[9,1],[9,1],[9,1],[11,3],[12,4],[13,4],[15,5],[16,5],[14,6],[10,3],[10,3],[10,3],[10,3],[10,2],[10,3],[10,1],[10,1]],
+symbols_: {"error":2,"start":3,"codes":4,"EOF":5,",":6,"code":7,"assignment":8,"expression":9,"(":10,")":11,"IF":12,"WHILE":13,"assignConst":14,"assignVariable":15,"assignFunction":16,"assignObj":17,"assignArr":18,"assignImport":19,"assignJSX":20,"VAR":21,":":22,"#":23,"!":24,"enterBlock":25,"leaveBlock":26,"[":27,"VarList":28,"]":29,"{":30,"}":31,"importMulti":32,"importBase":33,"IMPORT":34,"STRING":35,"tagBegin":36,"tagEnd":37,"<":38,">":39,"tagParams":40,"/":41,"tagParam":42,"+":43,"-":44,"*":45,"%":46,"NUMBER":47,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",6:",",10:"(",11:")",12:"IF",13:"WHILE",21:"VAR",22:":",23:"#",24:"!",27:"[",29:"]",30:"{",31:"}",34:"IMPORT",35:"STRING",38:"<",39:">",41:"/",43:"+",44:"-",45:"*",46:"%",47:"NUMBER"},
+productions_: [0,[3,2],[3,1],[4,3],[4,1],[7,1],[7,1],[7,3],[7,5],[7,5],[8,1],[8,1],[8,1],[8,1],[8,1],[8,1],[8,1],[14,3],[14,5],[14,3],[14,5],[15,4],[15,6],[16,7],[16,9],[25,0],[26,0],[18,5],[17,5],[28,3],[28,1],[19,1],[32,3],[32,5],[32,1],[33,6],[33,8],[20,2],[20,3],[36,3],[36,4],[37,4],[40,2],[40,1],[42,3],[9,3],[9,3],[9,3],[9,3],[9,2],[9,1],[9,1],[9,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
 var $0 = $$.length - 1;
 switch (yystate) {
 case 1:
- typeof console !== 'undefined' ? console.log($$[$0]) : print($$[$0]);
-          return $$[$0]; 
+ var res = $$[$0-1] + zws_code_tail; console.log(res); return res; 
 break;
-case 2: case 3:
-this.$ = `${$$[$0-2]}${$$[$0]}`;
+case 3:
+this.$ = `${$$[$0-2]}${$$[$0]}`
 break;
-case 5: case 6: case 7: case 8: case 9: case 10: case 11: case 12:
+case 4: case 30: case 43:
+this.$ = `${$$[$0]}`
+break;
+case 5:
+this.$ = '  '.repeat(zws_block_layer) + $$[$0];
+break;
+case 6:
+this.$ = '  '.repeat(zws_block_layer) + `zws_code_return = ${$$[$0]};\n`; zws_code_return='zws_code_return';
+break;
+case 7:
+this.$ = `${$$[$0-1]}`;
+break;
+case 8:
+this.$ = `if(${$$[$0-3]}){\n${$$[$0-1]}}`;
+break;
+case 9:
+this.$ = `while(${$$[$0-3]}){\n${$$[$0-1]}}`;
+break;
+case 10: case 11: case 12: case 13: case 14: case 15: case 16: case 34:
 this.$ = $$[$0];
 break;
-case 13:
-this.$ = `export const ${$$[$0-2]} = ${$$[$0]};\n`; /* ES2015(ES6) 新增const */
-break;
-case 14:
-this.$ = `export let ${$$[$0-3]} = ${$$[$0]};\n`; /* ES2015(ES6) 新增let */
-break;
-case 15:
-this.$ = `${$$[$0-3]} = ${$$[$0]};\n`;
-break;
-case 16:
-this.$ = `export const ${$$[$0-4]} = () => {\n  return ${$$[$0]};\n};\n`;
-break;
 case 17:
-this.$ = `const ${$$[$0-3]} = (${$$[$0]}).${$$[$0-3]};\n`;
+this.$ = `${zws_block_layer === 0? 'export ' : ''}const ${$$[$0-2]} = ${$$[$0]};\n`; zws_tmp = zws_code_return = $$[$0-2]; /* ES2015(ES6) 新增const */
 break;
 case 18:
-this.$ = `import ${$$[$0-5]} from ${$$[$0-1]};\n`;
+this.$ = `${zws_block_layer === 0? 'export ' : ''}const ${$$[$0-4]} = ${$$[$0]};\n`; zws_tmp = zws_code_return = $$[$0-4];
 break;
 case 19:
-this.$ = $$[$0-2]+' + '+$$[$0];
+this.$ = `${$$[$0]}${zws_block_layer === 0? 'export ' : ''}const ${$$[$0-2]} = ${zws_tmp};\n`; zws_code_return = $$[$0-2];
 break;
 case 20:
-this.$ = $$[$0-2]+' - '+$$[$0];
+this.$ = `${$$[$0]}${zws_block_layer === 0? 'export ' : ''}const ${$$[$0-4]} = ${zws_tmp};\n`; zws_code_return = $$[$0-4];
 break;
 case 21:
-this.$ = $$[$0-2]+' * '+$$[$0];
+this.$ = `${zws_block_layer === 0? 'export ' : ''}let ${$$[$0-3]} = ${$$[$0]};\n`; /* ES2015(ES6) 新增let */
 break;
 case 22:
-this.$ = $$[$0-2]+' / '+$$[$0];
+this.$ = `${zws_block_layer === 0? 'export ' : ''}const ${$$[$0-5]} = ${$$[$0]};\n`;
 break;
 case 23:
-this.$ = $$[$0-1]+' / 100';
+this.$ = `${zws_block_layer === 0? 'export ' : ''}const ${$$[$0-6]} = () => ${$$[$0-1]};\n`;
 break;
 case 24:
-this.$ = `(${$$[$0-1]})`;
+this.$ = `${zws_block_layer === 0? 'export ' : ''}const ${$$[$0-8]} = () => {\n${$$[$0-2]}${'  '.repeat(zws_block_layer)}return ${zws_code_return};\n};\n`;
 break;
-case 25: case 26:
+case 25:
+zws_block_layer += 1;
+break;
+case 26:
+zws_block_layer -= 1;
+break;
+case 27: case 28:
+this.$ = `const ${$$[$0-3]} = (${$$[$0]}).${$$[$0-3]};\n`;
+break;
+case 29:
+this.$ = `${$$[$0-2]}, ${$$[$0]}`
+break;
+case 31:
+this.$ = `import ${$$[$0]}\n`;
+break;
+case 32:
+this.$ = `${1}, ${$$[$0]}`
+break;
+case 33:
+this.$ = `{${$$[$0-3]}}, ${$$[$0]}`
+break;
+case 35:
+this.$ = `${$$[$0-5]} from ${$$[$0-1]};\n`;
+break;
+case 36:
+this.$ = `{${$$[$0-6]}} from ${$$[$0-1]};\n`;
+break;
+case 37:
+this.$ = `${$$[$0-1]}${$$[$0]}`
+break;
+case 38:
+this.$ = `${$$[$0-2]}${$$[$0-1]}${$$[$0]}`
+break;
+case 39:
+this.$ = `<${$$[$0-1]}>`
+break;
+case 40:
+this.$ = `<${$$[$0-2]} ${$$[$0-1]}>`
+break;
+case 41:
+this.$ = `</${$$[$0-1]}>`
+break;
+case 42:
+this.$ = `${$$[$0-1]} ${$$[$0]}`
+break;
+case 44:
+this.$ = `${$$[$0-2]}={${$$[$0]}}`
+break;
+case 45:
+this.$ = $$[$0-2]+' + '+$$[$0];
+break;
+case 46:
+this.$ = $$[$0-2]+' - '+$$[$0];
+break;
+case 47:
+this.$ = $$[$0-2]+' * '+$$[$0];
+break;
+case 48:
+this.$ = $$[$0-2]+' / '+$$[$0];
+break;
+case 49:
+this.$ = $$[$0-1]+' / 100';
+break;
+case 50: case 51: case 52:
 this.$ = String(yytext);
 break;
 }
@@ -282,6 +350,12 @@ parse: function parse(input) {
     }
     return true;
 }};
+
+
+var zws_tmp = '';
+var zws_code_tail = 'var zws_code_return;\n';
+var zws_code_return = '';
+var zws_block_layer = 0;
 /* generated by jison-lex 0.3.4 */
 var lexer = (function(){
 var lexer = ({
@@ -610,32 +684,34 @@ options: {},
 performAction: function anonymous(yy,yy_,$avoiding_name_collisions,YY_START) {
 var YYSTATE=YY_START;
 switch($avoiding_name_collisions) {
-case 0:return yy_.yytext[0]==='\n' ? 'ENTER' : undefined
+case 0:/* skip */
 break;
 case 1:/* skip */
 break;
-case 2:console.log('zws n');return 6
+case 2:return 12
 break;
-case 3:return 32
+case 3:return 13
 break;
-case 4:return 25
+case 4:return 47
 break;
-case 5:return 26
+case 5:return 34
 break;
-case 6:return 17
+case 6:return 35
 break;
-case 7:return 'PI'
+case 7:return 21
 break;
-case 8:return 'E'
+case 8:return 'PI'
 break;
-case 9:return 8
+case 9:return 'E'
 break;
-case 10:return yy_.yytext[0]
+case 10:return 5
+break;
+case 11:return yy_.yytext[0]
 break;
 }
 },
-rules: [/^(?:[\s\t])/,/^(?:#.*\n)/,/^(?:\n)/,/^(?:[0-9]+(\.[0-9]+)?\b)/,/^(?:import\b)/,/^(?:'.*')/,/^(?:[a-zA-Z]+)/,/^(?:PI\b)/,/^(?:E\b)/,/^(?:$)/,/^(?:.)/],
-conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10],"inclusive":true}}
+rules: [/^(?:[\s\t])/,/^(?:\/\/.*\n)/,/^(?:if\b)/,/^(?:while\b)/,/^(?:[0-9]+(\.[0-9]+)?\b)/,/^(?:import\b)/,/^(?:'.*')/,/^(?:[a-zA-Z]+)/,/^(?:PI\b)/,/^(?:E\b)/,/^(?:$)/,/^(?:.)/],
+conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11],"inclusive":true}}
 });
 return lexer;
 })();
