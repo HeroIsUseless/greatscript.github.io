@@ -57,7 +57,7 @@ a : getValue() # number
 x? : y? : z? : 0 # number
 // 类型在值之前，表示该变量的类型，例如：
 a? # number : 0
-// 更多的：
+// 这样可以更精细地定义每个变量的类型：
 a? # number : b? # number | string : 0
 ```
 解释：
