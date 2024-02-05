@@ -1,9 +1,12 @@
 # JS#
 ## Overview
+### 介绍
+JS#可以看作又一个TypeScript，但是比TS更简约。
 ### 设计纲领
 * 必须比TS的代码量少，尽量比JS的代码量少
 * TS没有实现的特性，JS#也没必要实现，首先保证JS#代码量少的特性
 * 语法不可以与JS/TS的语法相悖，尽量相似/统一
+* 将语义层面的尽量下放到语法层面
 ### Comparison to JS
 #### Semicolon
 |  JAVASCRIPT   | JS#  |
@@ -132,20 +135,20 @@ myFun(x #number, y #number) #number : (
 more
 
 ```
-if exp (
+if exp ? (
   ...
-) else if exp (
+) else if exp ? (
   ...
 ) else (
   ...
 )
 ```
 ```
-switch var (
-  case val1 (
+switch var ? (
+  case val1 ? (
     ...
   )
-  case val2 (
+  case val2 ? (
     ...
   )
   default (

@@ -8,10 +8,10 @@
 "//".*\n                 /* skip */
 'if' return 'IF'
 'while' return 'WHILE'
+[a-zA-Z]+                return 'VAR'
 [0-9]+("."[0-9]+)?\b  return 'NUMBER'
 "import"              return 'IMPORT'
 "'".*"'"              return 'STRING'
-[a-zA-Z]+                return 'VAR'
 "PI"                  return 'PI'
 "E"                   return 'E'
 <<EOF>>               return 'EOF'
@@ -52,9 +52,9 @@ code
         {$$ = '  '.repeat(zws_block_layer) + `zws_code_return = ${$1};\n`; zws_code_return='zws_code_return';}
     | '(' codes ')'
         {$$ = `${$2}`;}
-    | IF expression '(' codes ')'
+    | IF expression '?' '(' codes ')'
         {$$ = `if(${$2}){\n${$4}}`;}
-    | WHILE expression '(' codes ')'
+    | WHILE expression '?' '(' codes ')'
         {$$ = `while(${$2}){\n${$4}}`;}
     ;
 
@@ -192,8 +192,24 @@ expression
         {$$ = String(yytext);}
     | VAR
         {$$ = String(yytext);}
+    | funcExec
+        {$$ = $1;}
     | STRING
         {$$ = String(yytext);}
+    ;
+
+funcExec
+    : VAR '(' ')'
+        {$$ = `${$1}()`;}
+    | VAR '(' expList ')'
+        {$$ = `${$1}(${$3})`;}
+    ;
+
+expList
+    : expList ',' expression
+        {$$ = `${$1}, ${$3}`;}
+    | expression
+        {$$ = $1;}
     ;
 
 %%
