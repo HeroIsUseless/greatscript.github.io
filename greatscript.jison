@@ -4,13 +4,13 @@
 /* lexical grammar */
 %lex
 %%
-[\s\t] /* skip */
-"//".*\n                 /* skip */
-'if' return 'IF'
-'while' return 'WHILE'
-[a-zA-Z]+                return 'VAR'
-[0-9]+("."[0-9]+)?\b  return 'NUMBER'
+[\s\t]                /* skip */
+"//".*\n              /* skip */
+'if'                  return 'IF'
+'while'               return 'WHILE'
 "import"              return 'IMPORT'
+[a-zA-Z]+             return 'VAR'
+[0-9]+("."[0-9]+)?\b  return 'NUMBER'
 "'".*"'"              return 'STRING'
 "PI"                  return 'PI'
 "E"                   return 'E'

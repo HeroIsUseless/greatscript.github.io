@@ -701,11 +701,11 @@ case 2:return 12
 break;
 case 3:return 14
 break;
-case 4:return 22
+case 4:return 35
 break;
-case 5:return 48
+case 5:return 22
 break;
-case 6:return 35
+case 6:return 48
 break;
 case 7:return 36
 break;
@@ -719,7 +719,7 @@ case 11:return yy_.yytext[0]
 break;
 }
 },
-rules: [/^(?:[\s\t])/,/^(?:\/\/.*\n)/,/^(?:if\b)/,/^(?:while\b)/,/^(?:[a-zA-Z]+)/,/^(?:[0-9]+(\.[0-9]+)?\b)/,/^(?:import\b)/,/^(?:'.*')/,/^(?:PI\b)/,/^(?:E\b)/,/^(?:$)/,/^(?:.)/],
+rules: [/^(?:[\s\t])/,/^(?:\/\/.*\n)/,/^(?:if\b)/,/^(?:while\b)/,/^(?:import\b)/,/^(?:[a-zA-Z]+)/,/^(?:[0-9]+(\.[0-9]+)?\b)/,/^(?:'.*')/,/^(?:PI\b)/,/^(?:E\b)/,/^(?:$)/,/^(?:.)/],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11],"inclusive":true}}
 });
 return lexer;

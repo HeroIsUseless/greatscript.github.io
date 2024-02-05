@@ -1,3 +1,3 @@
-while b (
+while b ? (
     a
 )
