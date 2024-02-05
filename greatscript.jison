@@ -108,7 +108,7 @@ expression
         {$$ = $1+' / '+$3;}
     | expression '%'
         {$$ = $1+' / 100';}
-    | '(' expression ')'
+    | '(' statements ')'
         {$$ = `(${$2})`;}
     | NUMBER
         {$$ = String(yytext);}
