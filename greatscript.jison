@@ -72,7 +72,7 @@ assignment
     | assignImport
         {$$ = $1;}
     | assignJSX
-        {$$ = $1;}
+        {$$ = `zws_code_return = ${$1};\n`;}
     ;
 
 assignConst
@@ -94,10 +94,27 @@ assignVariable
     ;
 
 assignFunction
-    : VAR '(' ')' enterBlock ':' expression leaveBlock
+    : assignFunction_ leaveBlock
+        {$$ = $1;}
+    ;
+
+assignFunction_
+    : VAR '(' ')' enterBlock ':' expression
         {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = () => ${$6};\n`;}
-    | VAR '(' ')' enterBlock ':' '(' codes ')' leaveBlock
-        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = () => {\n${$7}${'  '.repeat(zws_block_layer)}return ${zws_code_return};\n};\n`;}
+    | VAR '(' ')' enterBlock ':' '(' codes ')'
+        {$$ = `${
+                zws_block_layer === 0? 'export ' : ''
+               }const ${
+                $1
+               } = () => {\n${
+                $7
+               }${
+                '  '.repeat(zws_block_layer)
+               }return ${
+                zws_code_return
+               };\n${
+                '  '.repeat(zws_block_layer-1)
+               }};\n`;}
     ;
 
 enterBlock
@@ -110,12 +127,12 @@ leaveBlock
 
 assignArr 
     : '[' VarList ']' ':' expression 
-        {$$ = `const ${$2} = (${$5}).${$2};\n`;}
+        {$$ = `const [${$2}] = ${$5};\n`;}
     ;
 
 assignObj 
     : '{' VarList '}' ':' expression 
-        {$$ = `const ${$2} = (${$5}).${$2};\n`;}
+        {$$ = `const {${$2}} = ${$5};\n`;}
     ;
 
 VarList
@@ -151,6 +168,8 @@ assignJSX
         {$$ = `${$1}${$2}`}
     | tagBegin assignJSX tagEnd 
         {$$ = `${$1}${$2}${$3}`}
+    | tagBegin '`' expression '`' tagEnd 
+        {$$ = `${$1}{${$3}}${$5}`}
     ;
 
 tagBegin

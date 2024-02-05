@@ -15,7 +15,7 @@
     "test9": "node greatscript.js test9_jsx.gs",
     "test10": "node greatscript.js test10_react.gs",
     "dev": "jison greatscript.jison && npm run test1 && npm run test2 && npm run test3 && npm run test4 && npm run test5 && npm run test6 && npm run test7 && npm run test8 && npm run test9 && npm run test10",
-    "d": "jison greatscript.jison && npm run test4"
+    "d": "jison greatscript.jison && npm run test10"
   },
   "repository": {
     "type": "git",

@@ -177,6 +177,26 @@ switch var ? (
 )
 ```
 
+#### While
+
+```
+while exp ? (
+  ...
+)
+```
+
+解释：
+
+三元表达式？
+
+鉴于三元表达式的高效性，三元表达式是一定要有的，但与JS有些许差别：
+
+```
+a ? b | c
+```
+
+if/while/switch的问号实际上与三元表达式统一
+
 #### Destructuring
 |  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
