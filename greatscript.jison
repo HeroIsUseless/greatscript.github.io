@@ -65,7 +65,7 @@ assignment
         {$$ = $1;}
     | assignFunction
         {$$ = $1;}
-    | assignObj
+    | assignDestruct
         {$$ = $1;}
     | assignArr
         {$$ = $1;}
@@ -101,6 +101,8 @@ assignFunction
 assignFunction_
     : VAR '(' ')' enterBlock ':' expression
         {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = () => ${$6};\n`;}
+    | VAR '(' params ')' enterBlock ':' expression
+        {$$ = `${zws_block_layer === 0? 'export ' : ''}const ${$1} = (${$3}) => ${$7};\n`;}
     | VAR '(' ')' enterBlock ':' '(' codes ')'
         {$$ = `${
                 zws_block_layer === 0? 'export ' : ''
@@ -108,6 +110,22 @@ assignFunction_
                 $1
                } = () => {\n${
                 $7
+               }${
+                '  '.repeat(zws_block_layer)
+               }return ${
+                zws_code_return
+               };\n${
+                '  '.repeat(zws_block_layer-1)
+               }};\n`;}
+    | VAR '(' params ')' enterBlock ':' '(' codes ')'
+        {$$ = `${
+                zws_block_layer === 0? 'export ' : ''
+               }const ${
+                $1
+               } = (${
+                $3
+               }) => {\n${
+                $8
                }${
                 '  '.repeat(zws_block_layer)
                }return ${
@@ -130,7 +148,7 @@ assignArr
         {$$ = `const [${$2}] = ${$5};\n`;}
     ;
 
-assignObj 
+assignDestruct 
     : '{' VarList '}' ':' expression 
         {$$ = `const {${$2}} = ${$5};\n`;}
     ;
@@ -231,6 +249,35 @@ expList
         {$$ = $1;}
     ;
 
+lambda
+    : '(' ')' ':' expression
+        {$$ = `() => ${$4}`}
+    | '(' ')' ':' '(' codes ')'
+        {$$ = `() => {${$5}}`}
+    | '(' params ')' ':' expression
+        {$$ = `(${$2}) => ${$5}`}
+    | '(' params ')' ':' '(' codes ')'
+        {$$ = `(${$2}) => {${$6}}`}
+    ;
+
+params 
+    : params ',' param
+        {$$ = `${$1}, ${$3}`}
+    | param
+        {$$ = $1;}
+    ;
+
+param
+    : VAR '#' VAR
+        {$$ = `${$1}: ${$3}`}
+    | lambda
+        {$$ = $1}
+    ;
+
+struct
+    : '{' codes '}'
+        {$$ = `{${$2}}`}
+    ;
 %%
 
 var zws_tmp = '';
