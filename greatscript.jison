@@ -47,7 +47,7 @@ codes
 
 code
     : assignment
-        {$$ = '  '.repeat(zws_block_layer) + $1;}
+        {$$ = addPrefix($1);}
     | expression
         {$$ = '  '.repeat(zws_block_layer) + `zws_code_return = ${$1};\n`; zws_code_return='zws_code_return';}
     | '(' codes ')'
@@ -284,3 +284,15 @@ var zws_tmp = '';
 var zws_code_tail = 'var zws_code_return;\n';
 var zws_code_return = '';
 var zws_block_layer = 0;
+
+function shouldAttachExportPrefix(code) {
+
+}
+
+function shouldAttachTab(code) {
+    return '  '.repeat(zws_block_layer) + code;
+}
+
+function addPrefix(code) {
+
+}
