@@ -50,6 +50,9 @@ expression
         {$$ = $1;}
     | literal
         { /* 理论上这里并不需要做什么 */ }
+    | literal '+' literal
+    | '(' expressions ')'
+    | funcExec
     ;
 
 literal
@@ -64,6 +67,7 @@ literal
 assignment
     : assignConst
     | assignVariable
+    | assignFunction
     ;
 
 assignConst
@@ -78,6 +82,37 @@ assignVariable
         {assignVariable($1);}
     | VAR '!' '#' VAR ':' expression
         {assignVariable($1);}
+    ;
+
+assignFunction
+    : VAR '(' ')' ':' expression
+    | VAR '(' params ')' ':' expression
+    ;
+
+params 
+    : params ',' param
+    | param
+    ;
+
+
+param
+    : VAR '#' VAR
+    | lambda
+    ;
+
+lambda
+    : '(' ')' ':' expression
+    | '(' params ')' ':' expression
+    ;
+
+funcExec
+    : VAR '(' ')'
+    | VAR '(' expList ')'
+    ;
+
+expList
+    : expList ',' expression
+    | expression
     ;
 
 %%
