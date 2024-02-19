@@ -34,12 +34,12 @@
 
 start
     : expressions EOF
-        { console.log(addTail($1)); return addTail($1); }
+        { console.log(prefix(codeRes)); return prefix(codeRes); }
     | EOF
     ;
 
 expressions
-    : expressions ',' expression
+    : expression ',' expressions
         {$$ = `${$1}${$3}`}
     | expression 
         {$$ = `${$1}`}
@@ -49,64 +49,58 @@ expression
     : assignment
         {$$ = $1;}
     | literal
-        {$$ = toTmpRes($1);}
+        { /* 理论上这里并不需要做什么 */ }
     ;
 
 literal
     : VAR
-        {$$ = $1;}
+        {literal($1);}
     | NUMBER
-        {$$ = $1;}
+        {literal($1);}
     | STRING
-        {$$ = $1;}
+        {literal($1);}
     ;
 
 assignment
     : assignConst
-        {$$ = $1;}
+    | assignVariable
     ;
 
 assignConst
     : VAR ':' expression
-        {$$ = $1;}
+        {assignConst($1);}
     | VAR '#' VAR ':' expression
-        {$$ = $1;}
+        {assignConst($1);}
     ;
+
+assignVariable
+    : VAR '!' ':' expression
+        {assignVariable($1);}
+    | VAR '!' '#' VAR ':' expression
+        {assignVariable($1);}
+    ;
+
 %%
 
-var zws_tmp = '';
-var codeTail = 'var js$tmpRes;\n';
-var js$tmpRes = '';
-var zws_block_layer = 0;
+var codeRes = ''; // 代码整体
+var js$tmpRes; // 暂时输出结果
 
-function shouldAttachExportPrefix(code) {
-
+function append(c) {
+    codeRes += c;
 }
 
-function shouldAttachTab(code) {
-    return '  '.repeat(zws_block_layer) + code;
+function literal(l) {
+    append(`js$tmpRes = ${l};\n`);
 }
 
-function addPrefix(code) {
-
+function assignConst(VAR) {
+    append(`const ${VAR} = js$tmpRes;\n\n`);
 }
 
-function addTail(code) {
-    return code + codeTail;
+function assignVariable(VAR) {
+    append(`let ${VAR} = js$tmpRes;\n\n`);
 }
 
-function toTmpRes(code) {
-    return (
-`
-js$tmpRes = ${code}
-`
-    )
-}
-
-function assignConst() {
-    return (
-`
-
-`
-    )
+function prefix(code) {
+    return 'var js$tmpRes;\n' + code;
 }

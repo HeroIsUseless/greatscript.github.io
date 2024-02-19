@@ -31,7 +31,10 @@
 %start start
 
 %% /* language grammar */
-
+怎么做呢
+理论上来说，每次生成一个表达式
+并且用自己的变量来处理
+每个语句就是一个简单的函数处理即可
 start
     : codes EOF
         { var res = $1 + zws_code_tail; console.log(res); return res; }

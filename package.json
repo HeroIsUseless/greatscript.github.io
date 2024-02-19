@@ -17,7 +17,7 @@
     "test11": "node greatscript.js test11_struct.gs",
     "use1": "node greatscript.js use1_react.gs",
     "dev": "jison greatscript.jison && npm run test1 && npm run test2 && npm run test3 && npm run test4 && npm run test5 && npm run test6 && npm run test7 && npm run test8 && npm run test9 && npm run test10 && npm run test11",
-    "d": "jison greatscript.jison && npm run test2",
+    "d": "jison greatscript.jison && npm run test3",
     "u": "jison greatscript.jison && npm run use1"
   },
   "repository": {
