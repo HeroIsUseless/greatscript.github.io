@@ -240,6 +240,10 @@ CountView() : (
 |  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
 | `type T = M`  | `T #: M` |
-| `type M = <T>(a: T) => T`  | `M<T>(a #T) #: T` |
+| `type M = (<T>(a: T) => T)\|string`  | `M #: (<T>(a #T) : T) \| string` |
 | `const arr: Array<number> = new Array<number>([])`  | `arr : Array<number>([]) #Array<number>` |
 | `type T = {a: number, [k: string]: boolean}`  | `T #: {a #number, [k #string] #string}` |
+
+more
+
+`M<T>(a: T) #: T`
