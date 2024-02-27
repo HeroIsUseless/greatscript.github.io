@@ -4,21 +4,8 @@
   "description": "great script",
   "main": "main.js",
   "scripts": {
-    "test1": "node greatscript.js test1_annotation.gs",
-    "test2": "node greatscript.js test2_const.gs",
-    "test3": "node greatscript.js test3_variable.gs",
-    "test4": "node greatscript.js test4_function.gs",
-    "test5": "node greatscript.js test5_import.gs",
-    "test6": "node greatscript.js test6_destruct.gs",
-    "test7": "node greatscript.js test7_if.gs",
-    "test8": "node greatscript.js test8_while.gs",
-    "test9": "node greatscript.js test9_jsx.gs",
-    "test10": "node greatscript.js test10_type.gs",
-    "test11": "node greatscript.js test11_struct.gs",
-    "use1": "node greatscript.js use1_react.gs",
-    "dev": "jison greatscript.jison && npm run test1 && npm run test2 && npm run test3 && npm run test4 && npm run test5 && npm run test6 && npm run test7 && npm run test8 && npm run test9 && npm run test10 && npm run test11",
-    "d": "jison greatscript.jison && npm run test4",
-    "u": "jison greatscript.jison && npm run use1"
+    "dev": "jison jsc/jsc1.jison && npm run test",
+    "test": "node jsc1.js test/test2_const.gs"
   },
   "repository": {
     "type": "git",
