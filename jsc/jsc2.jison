@@ -70,6 +70,10 @@ literal
         {literal($1);}
     ;
 
+lambda
+    : '(' ')' ':' expression
+    | 
+
 %%
 
 var codeRes = ''; // 代码整体

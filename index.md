@@ -1,12 +1,59 @@
 # JS#
 ## Overview
 ### 介绍
-JS#可以看作又一个TypeScript，但是比TS更简约。
+JS#可以看作又一个TypeScript，但是比TS更简约。解决的是TS过于繁琐，代码冗长的问题。以JS为基础，简约性，统一性，有类型标注，无移进规约冲突
+
+精华仅在于定义，其他只是补充，无移进规约冲突不可能
+关键在于信息的合并
+
+比如说 a: 3|2|1，但是这里会与函数参数冲突
+b: number|1
+但这样，ts 比它好，let b = 1，并且函数怎么办？
+c(): number & a + 1，没有可读性
+
+就算按照原来的走，那么条件/循环逻辑该怎么办？
+for循环怎么办？i能不能继承下去？
+for(let i=0; i<n; i++) {
+  ...
+}
+
+for i:0, i<n, i++ ? (
+  ...
+)
+
+for (i:0, j:n), i<n && j>0, (i++, j++) ? (
+  ...
+)
+
+匿名表达式该怎么办？
+setTimeout(f(): (
+  ...
+), 1000)
+
+那么这么来说，基本没问题了
+
+createFactory(a: number, b: 0): (
+  a += 1
+  {a: a, b: b}
+)
+
+定义：
+a: 1 // 定义一个常量，类型是number<1>，值是1
+a: 3|2|1 // 定义一个变量，类型是number<1,2,3>，值是1
+a: number|1 // 定义一个变量，类型是number，值是1
+b(): a + 1 // 定义一个函数，返回值的类型。。。 
+f[]: a + 1
+f[x #number, y #number]: x + y
 ### 设计纲领
 * 必须比TS的代码量少，尽量比JS的代码量少
-* TS没有实现的特性，JS#也没必要实现，首先保证JS#代码量少的特性
+* 原生的类型标注，没有类型标注的代码无法执行
+* JS/TS没有实现的特性，JS#也没必要实现，首先保证JS#代码量少的特性
+* JS/TS重复实现的特性，JS#不能实现，在JS#中代码尽量不能两写
 * 语法不可以与JS/TS的语法相悖，尽量相似/统一
 * 将语义层面的规则尽量下放到语法层面
+
+* 新概念要以旧语法为基础，新增一些语法，但不能与旧语法相悖
+* 为后续做铺垫
 
 解释：
 
@@ -119,7 +166,7 @@ more
 #### Function
 |  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
-| `arg => retVal`  | `(arg #Arg) : retVal` |
+| `arg => retVal`  | `f(arg #Arg) : retVal` |
 | `function named(arg) {...}`  | `named(arg #Arg) : (...)` |
 | `const f = function(arg) {...}`  | `f(arg #Arg) : (...)` |
 | `add(4, add(5, 6))`  | Same |
@@ -149,8 +196,12 @@ myFun(x #number, y #number) #number : (
 #### If-else
 |  JAVASCRIPT   | JS#  |
 |  ----  | ----  |
-| `if (a) {b} else {c}`  | `if a (b) else (c)` |
-| `a ? b : c`  | `if a b else c` |
+| `if (a) {b} else {c}`  | `a ? b \| c` |
+| `a ? b : c`  | `a ? b \| c` |
+
+这里提出了代码块前缀符的概念，因此代码块不是模版代码块
+另外switch，while也能解释了，比JS/TS不多不少
+另外还能拓展private等
 
 more
 
@@ -196,6 +247,8 @@ a ? b | c
 ```
 
 if/while/switch的问号实际上与三元表达式统一
+
+### ForEach
 
 #### Destructuring
 |  JAVASCRIPT   | JS#  |
