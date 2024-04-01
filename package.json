@@ -4,19 +4,10 @@
   "description": "great script",
   "main": "main.js",
   "scripts": {
-    "dev": "jison jsc/jsc1.jison && npm run test",
-    "test": "node jsc1.js test/test1_const.jsc"
+    "dev": "cd ./jsc/02_const && jison ./jsc.jison && node ./jsc.js ./test.jss"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/HeroIsUseless/greatscript.github.io.git"
-  },
-  "author": "",
+  "author": "heroisuseless",
   "license": "GPL-3.0-or-later",
-  "bugs": {
-    "url": "https://github.com/HeroIsUseless/greatscript.github.io/issues"
-  },
-  "homepage": "https://github.com/HeroIsUseless/greatscript.github.io#readme",
   "devDependencies": {
     "jison": "^0.4.18"
   }

@@ -1,12 +1,12 @@
 
-/* description: Parses const let. */
+/* description: 注释 */
 
 /* lexical grammar */
 %lex
 %%
-[\s\t]              /* skip */
-"//".*\n              /* skip */
-number                return 'RESERVEDNUMBER'
+[\s\t]                /* skip */
+\/\/.*\n              /* skip */
+number                return 'RESERVED_NUMBER'
 [a-zA-Z]+             return 'VAR'
 [0-9]+                return 'NUMBER'
 <<EOF>>               return 'EOF'
@@ -43,19 +43,19 @@ assignment
 assignBegin
     : VAR ':' 
         {$$ = assignConst($1);}
-    | VAR '#' RESERVEDNUMBER ':'
+    | VAR '#' RESERVED_NUMBER ':'
         {$$ = assignConst($1);}
     | VAR '?' ':'
         {$$ = assignVariable($1);}
-    | VAR '?' '#' RESERVEDNUMBER ':'
+    | VAR '?' '#' RESERVED_NUMBER ':'
         {$$ = assignVariable($1);}
     ;
 
 assignEnd
     : expression
-    | VAR '#' RESERVEDNUMBER
+    | VAR '#' RESERVED_NUMBER
         {literal($1);}
-    | NUMBER '#' RESERVEDNUMBER
+    | NUMBER '#' RESERVED_NUMBER
         {literal($1);}
     ;
 

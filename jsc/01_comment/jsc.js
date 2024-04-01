@@ -71,13 +71,13 @@
     recoverable: (boolean: TRUE when the parser has a error recovery rule available for this particular error)
   }
 */
-var greatscript = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,7],$V1=[1,12],$V2=[1,13],$V3=[1,14],$V4=[5,12],$V5=[5,7,12],$V6=[5,7,10,12],$V7=[2,10],$V8=[1,19],$V9=[1,20],$Va=[1,22],$Vb=[1,32],$Vc=[1,33],$Vd=[1,43],$Ve=[7,12],$Vf=[1,44],$Vg=[1,47],$Vh=[1,55],$Vi=[1,54],$Vj=[2,24];
+var jsc = (function(){
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,7],$V1=[5,6],$V2=[1,16],$V3=[1,18],$V4=[11,17],$V5=[1,27];
 var parser = {trace: function trace () { },
 yy: {},
-symbols_: {"error":2,"start":3,"expressions":4,"EOF":5,"expression":6,",":7,"assignment":8,"literal":9,"+":10,"(":11,")":12,"funcExec":13,"VAR":14,"NUMBER":15,"STRING":16,"assignConst":17,"assignVariable":18,"assignFunction":19,":":20,"#":21,"!":22,"params":23,"param":24,"lambda":25,"expList":26,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",7:",",10:"+",11:"(",12:")",14:"VAR",15:"NUMBER",16:"STRING",20:":",21:"#",22:"!"},
-productions_: [0,[3,2],[3,1],[4,3],[4,1],[6,1],[6,1],[6,3],[6,3],[6,1],[9,1],[9,1],[9,1],[8,1],[8,1],[8,1],[17,3],[17,5],[18,4],[18,6],[19,5],[19,6],[23,3],[23,1],[24,3],[24,1],[25,4],[25,5],[13,3],[13,4],[26,3],[26,1]],
+symbols_: {"error":2,"start":3,"statements":4,"EOF":5,",":6,"statement":7,"assignment":8,"assignBegin":9,"assignEnd":10,"VAR":11,":":12,"#":13,"RESERVED_NUMBER":14,"?":15,"expression":16,"NUMBER":17,"literal":18,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",6:",",11:"VAR",12:":",13:"#",14:"RESERVED_NUMBER",15:"?",17:"NUMBER"},
+productions_: [0,[3,2],[3,1],[4,3],[4,1],[7,1],[8,2],[8,2],[9,2],[9,4],[9,3],[9,5],[10,1],[10,3],[10,3],[16,1],[18,1],[18,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -86,37 +86,31 @@ switch (yystate) {
 case 1:
  console.log(prefix(codeRes)); return prefix(codeRes); 
 break;
-case 3:
-this.$ = `${$$[$0-2]}${$$[$0]}`
+case 6: case 7:
+append($$[$0-1]);
 break;
-case 4:
-this.$ = `${$$[$0]}`
+case 8:
+this.$ = assignConst($$[$0-1]);
 break;
-case 5:
-this.$ = $$[$0];
+case 9:
+this.$ = assignConst($$[$0-3]);
 break;
-case 6:
- /* 理论上这里并不需要做什么 */ 
+case 10:
+this.$ = assignVariable($$[$0-2]);
 break;
-case 10: case 11: case 12:
+case 11:
+this.$ = assignVariable($$[$0-4]);
+break;
+case 13: case 14:
+literal($$[$0-2]);
+break;
+case 16: case 17:
 literal($$[$0]);
-break;
-case 16:
-assignConst($$[$0-2]);
-break;
-case 17:
-assignConst($$[$0-4]);
-break;
-case 18:
-assignVariable($$[$0-3]);
-break;
-case 19:
-assignVariable($$[$0-5]);
 break;
 }
 },
-table: [{3:1,4:2,5:[1,3],6:4,8:5,9:6,11:$V0,13:8,14:$V1,15:$V2,16:$V3,17:9,18:10,19:11},{1:[3]},{5:[1,15]},{1:[2,2]},o($V4,[2,4],{7:[1,16]}),o($V5,[2,5]),o($V5,[2,6],{10:[1,17]}),{4:18,6:4,8:5,9:6,11:$V0,13:8,14:$V1,15:$V2,16:$V3,17:9,18:10,19:11},o($V5,[2,9]),o($V5,[2,13]),o($V5,[2,14]),o($V5,[2,15]),o($V6,$V7,{11:$V8,20:$V9,21:[1,21],22:$Va}),o($V6,[2,11]),o($V6,[2,12]),{1:[2,1]},{4:23,6:4,8:5,9:6,11:$V0,13:8,14:$V1,15:$V2,16:$V3,17:9,18:10,19:11},{9:24,14:[1,25],15:$V2,16:$V3},{12:[1,26]},{6:30,8:5,9:6,11:$Vb,12:[1,27],13:8,14:$Vc,15:$V2,16:$V3,17:9,18:10,19:11,23:29,24:31,25:34,26:28},{6:35,8:5,9:6,11:$V0,13:8,14:$V1,15:$V2,16:$V3,17:9,18:10,19:11},{14:[1,36]},{20:[1,37],21:[1,38]},o($V4,[2,3]),o($V5,[2,7]),o($V5,$V7),o($V5,[2,8]),o($V5,[2,28],{20:[1,39]}),{7:[1,41],12:[1,40]},{7:$Vd,12:[1,42]},o($Ve,[2,31]),o($Ve,[2,23]),{4:18,6:4,8:5,9:6,11:$Vb,12:$Vf,13:8,14:$Vc,15:$V2,16:$V3,17:9,18:10,19:11,23:45,24:31,25:34},o([7,10,12],$V7,{11:$V8,20:$V9,21:[1,46],22:$Va}),o($Ve,[2,25]),o($V5,[2,16]),{20:$Vg},{6:48,8:5,9:6,11:$V0,13:8,14:$V1,15:$V2,16:$V3,17:9,18:10,19:11},{14:[1,49]},{6:50,8:5,9:6,11:$V0,13:8,14:$V1,15:$V2,16:$V3,17:9,18:10,19:11},o($V5,[2,29]),{6:51,8:5,9:6,11:$V0,13:8,14:$V1,15:$V2,16:$V3,17:9,18:10,19:11},{20:[1,52]},{11:$Vh,14:$Vi,24:53,25:34},{20:[1,56]},{7:$Vd,12:[1,57]},{14:[1,58]},{6:59,8:5,9:6,11:$V0,13:8,14:$V1,15:$V2,16:$V3,17:9,18:10,19:11},o($V5,[2,18]),{20:[1,60]},o($V5,[2,20]),o($Ve,[2,30]),{6:61,8:5,9:6,11:$V0,13:8,14:$V1,15:$V2,16:$V3,17:9,18:10,19:11},o($Ve,[2,22]),{21:[1,62]},{11:$Vh,12:$Vf,14:$Vi,23:45,24:31,25:34},{6:63,8:5,9:6,11:$V0,13:8,14:$V1,15:$V2,16:$V3,17:9,18:10,19:11},{20:[1,64]},o($Ve,$Vj,{20:$Vg}),o($V5,[2,17]),{6:65,8:5,9:6,11:$V0,13:8,14:$V1,15:$V2,16:$V3,17:9,18:10,19:11},o($V5,[2,21]),{14:[1,66]},o($Ve,[2,26]),{6:67,8:5,9:6,11:$V0,13:8,14:$V1,15:$V2,16:$V3,17:9,18:10,19:11},o($V5,[2,19]),o($Ve,$Vj),o($Ve,[2,27])],
-defaultActions: {3:[2,2],15:[2,1]},
+table: [{3:1,4:2,5:[1,3],7:4,8:5,9:6,11:$V0},{1:[3]},{5:[1,8],6:[1,9]},{1:[2,2]},o($V1,[2,4]),o($V1,[2,5]),{8:11,9:6,10:10,11:[1,13],16:12,17:[1,14],18:15},{12:$V2,13:[1,17],15:$V3},{1:[2,1]},{7:19,8:5,9:6,11:$V0},o($V1,[2,6]),o($V1,[2,7]),o($V1,[2,12]),o($V1,[2,16],{12:$V2,13:[1,20],15:$V3}),o($V1,[2,17],{13:[1,21]}),o($V1,[2,15]),o($V4,[2,8]),{14:[1,22]},{12:[1,23],13:[1,24]},o($V1,[2,3]),{14:[1,25]},{14:[1,26]},{12:$V5},o($V4,[2,10]),{14:[1,28]},o($V1,[2,13],{12:$V5}),o($V1,[2,14]),o($V4,[2,9]),{12:[1,29]},o($V4,[2,11])],
+defaultActions: {3:[2,2],8:[2,1]},
 parseError: function parseError (str, hash) {
     if (hash.recoverable) {
         this.trace(str);
@@ -277,11 +271,11 @@ function literal(l) {
 }
 
 function assignConst(VAR) {
-    append(`const ${VAR} = js$tmpRes;\n\n`);
+    return (`const ${VAR} = js$tmpRes;\n`);
 }
 
 function assignVariable(VAR) {
-    append(`let ${VAR} = js$tmpRes;\n\n`);
+    return (`let ${VAR} = js$tmpRes;\n`);
 }
 
 function prefix(code) {
@@ -619,30 +613,20 @@ case 0:/* skip */
 break;
 case 1:/* skip */
 break;
-case 2:return 'IF'
+case 2:return 14
 break;
-case 3:return 'WHILE'
+case 3:return 11
 break;
-case 4:return 'IMPORT'
+case 4:return 17
 break;
-case 5:return 14
+case 5:return 5
 break;
-case 6:return 15
-break;
-case 7:return 16
-break;
-case 8:return 'PI'
-break;
-case 9:return 'E'
-break;
-case 10:return 5
-break;
-case 11:return yy_.yytext[0]
+case 6:return yy_.yytext[0]
 break;
 }
 },
-rules: [/^(?:[\s\t])/,/^(?:\/\/.*\n)/,/^(?:if\b)/,/^(?:while\b)/,/^(?:import\b)/,/^(?:[a-zA-Z]+)/,/^(?:[0-9]+(\.[0-9]+)?\b)/,/^(?:'.*')/,/^(?:PI\b)/,/^(?:E\b)/,/^(?:$)/,/^(?:.)/],
-conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11],"inclusive":true}}
+rules: [/^(?:[\s\t])/,/^(?:\/\/.*\n)/,/^(?:number\b)/,/^(?:[a-zA-Z]+)/,/^(?:[0-9]+)/,/^(?:$)/,/^(?:.)/],
+conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6],"inclusive":true}}
 });
 return lexer;
 })();
@@ -656,9 +640,9 @@ return new Parser;
 
 
 if (typeof require !== 'undefined' && typeof exports !== 'undefined') {
-exports.parser = greatscript;
-exports.Parser = greatscript.Parser;
-exports.parse = function () { return greatscript.parse.apply(greatscript, arguments); };
+exports.parser = jsc;
+exports.Parser = jsc.Parser;
+exports.parse = function () { return jsc.parse.apply(jsc, arguments); };
 exports.main = function commonjsMain (args) {
     if (!args[1]) {
         console.log('Usage: '+args[0]+' FILE');
