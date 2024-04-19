@@ -1,6 +1,6 @@
-f() : a + 2,
-f() : (a + 2, b + 1, c:1),
-f(a, 1),
-f(a #number, b #number) : a + b,
-f(a #number, b #number, cb(c# number):#number) : (a + b),
-f(a, c(): (a + b))
+f : <>a
+// f : <>number(a + 2),
+// f : <>(a: @, b: @, a + b),
+// f : <T>(a: T @, b: T @, cb: <>number(k: number@) @, a + b),
+// f(a, 1),
+// f(a, <>(a + b))

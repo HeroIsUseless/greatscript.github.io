@@ -4,7 +4,7 @@
   "description": "great script",
   "main": "main.js",
   "scripts": {
-    "dev": "cd ./jsc/02_const && jison ./jsc.jison && node ./jsc.js ./test.jss"
+    "dev": "cd ./jsc/03_function && jison ./jsc.jison && node ./jsc.js ./test.jss"
   },
   "author": "heroisuseless",
   "license": "GPL-3.0-or-later",

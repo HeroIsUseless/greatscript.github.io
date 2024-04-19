@@ -11,7 +11,54 @@ JS#可以看作又一个TypeScript，但是比TS更简约。解决的是TS过于
 * 将语义层面的规则尽量下放到语法层面
 * 新概念要以旧语法为基础，新增一些语法，但不能与旧语法相悖，为后续做铺垫
 
+* 统一性
+* 能剥离所有的类型定义，因为类型定义是注释的一部分
+
+* 世俗性
+
 解释：
+a: 1
+a: number 1
+a?: 1
+a: b: number c
+f: <>a
+f: <>number(a+2)
+f: <>(a: @, b: @, a + b),
+f: <>(a: number @, b: number @, cb: <>number(k: @) @),
+f: <T>(a: T @, a),
+f[1, 2]
+f{a:1, b:2}
+arr: Array<number>()
+arr: [1,2,3]
+arr(1)
+arr[1, 2]
+obj: {a: 1, b: 2}
+obj.a
+obj('a')
+obj['a', 'b']
+...obj
+if[a, <>b, <>c]
+if{
+  condition: a,
+  then: <>b,
+  else: <>c
+}
+switch[a, [b, <>c], [d, <>e], <>f]
+switch{
+  condition: a,
+  cases: [
+    {value: b, then: <> c},
+    {value: d, then: <> e}
+  ],
+  default: <> f,
+}
+while[<>a, <>b]
+while{
+  condition: <>a,
+  then: <>b
+}
+for[<>a, <>b, <>c]
+
 
 **什么是将语义层面的规则尽量下放到语法层面**
 

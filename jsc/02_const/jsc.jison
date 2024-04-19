@@ -43,20 +43,16 @@ assignment
 assignBegin
     : VAR ':' 
         {$$ = assignConst($1);}
-    | VAR '#' RESERVED_NUMBER ':'
-        {$$ = assignConst($1);}
     | VAR '?' ':'
-        {$$ = assignVariable($1);}
-    | VAR '?' '#' RESERVED_NUMBER ':'
         {$$ = assignVariable($1);}
     ;
 
 assignEnd
     : expression
-    | VAR '#' RESERVED_NUMBER
-        {literal($1);}
-    | NUMBER '#' RESERVED_NUMBER
-        {literal($1);}
+    | RESERVED_NUMBER VAR
+        {literal($2);}
+    | RESERVED_NUMBER NUMBER
+        {literal($2);}
     ;
 
 expression

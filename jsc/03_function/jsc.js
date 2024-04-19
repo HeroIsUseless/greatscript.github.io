@@ -72,12 +72,12 @@
   }
 */
 var jsc = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,7],$V1=[5,6],$V2=[1,16],$V3=[1,18],$V4=[11,17],$V5=[1,27];
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,6],$V1=[1,8],$V2=[5,6],$V3=[1,19],$V4=[1,20],$V5=[1,21],$V6=[2,16],$V7=[12,17,18,20];
 var parser = {trace: function trace () { },
 yy: {},
-symbols_: {"error":2,"start":3,"statements":4,"EOF":5,",":6,"statement":7,"assignment":8,"assignBegin":9,"assignEnd":10,"VAR":11,":":12,"#":13,"RESERVED_NUMBER":14,"?":15,"expression":16,"NUMBER":17,"literal":18,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",6:",",11:"VAR",12:":",13:"#",14:"RESERVED_NUMBER",15:"?",17:"NUMBER"},
-productions_: [0,[3,2],[3,1],[4,3],[4,1],[7,1],[8,2],[8,2],[9,2],[9,4],[9,3],[9,5],[10,1],[10,3],[10,3],[16,1],[18,1],[18,1]],
+symbols_: {"error":2,"start":3,"statements":4,"EOF":5,",":6,"statement":7,"assignment":8,"assignFunc":9,"assignBegin":10,"assignEnd":11,"VAR":12,":":13,"?":14,"expression":15,"template":16,"RESERVED_NUMBER":17,"NUMBER":18,"literal":19,"<":20,">":21,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",6:",",9:"assignFunc",12:"VAR",13:":",14:"?",17:"RESERVED_NUMBER",18:"NUMBER",20:"<",21:">"},
+productions_: [0,[3,2],[3,1],[4,3],[4,1],[7,1],[7,1],[8,2],[8,2],[10,2],[10,3],[11,1],[11,1],[11,2],[11,2],[15,1],[19,1],[19,1],[16,3]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -86,31 +86,22 @@ switch (yystate) {
 case 1:
  console.log(prefix(codeRes)); return prefix(codeRes); 
 break;
-case 6: case 7:
+case 7: case 8:
 append($$[$0-1]);
 break;
-case 8:
-this.$ = assignConst($$[$0-1]);
-break;
 case 9:
-this.$ = assignConst($$[$0-3]);
+this.$ = assignConst($$[$0-1]);
 break;
 case 10:
 this.$ = assignVariable($$[$0-2]);
 break;
-case 11:
-this.$ = assignVariable($$[$0-4]);
-break;
-case 13: case 14:
-literal($$[$0-2]);
-break;
-case 16: case 17:
+case 13: case 14: case 16: case 17:
 literal($$[$0]);
 break;
 }
 },
-table: [{3:1,4:2,5:[1,3],7:4,8:5,9:6,11:$V0},{1:[3]},{5:[1,8],6:[1,9]},{1:[2,2]},o($V1,[2,4]),o($V1,[2,5]),{8:11,9:6,10:10,11:[1,13],16:12,17:[1,14],18:15},{12:$V2,13:[1,17],15:$V3},{1:[2,1]},{7:19,8:5,9:6,11:$V0},o($V1,[2,6]),o($V1,[2,7]),o($V1,[2,12]),o($V1,[2,16],{12:$V2,13:[1,20],15:$V3}),o($V1,[2,17],{13:[1,21]}),o($V1,[2,15]),o($V4,[2,8]),{14:[1,22]},{12:[1,23],13:[1,24]},o($V1,[2,3]),{14:[1,25]},{14:[1,26]},{12:$V5},o($V4,[2,10]),{14:[1,28]},o($V1,[2,13],{12:$V5}),o($V1,[2,14]),o($V4,[2,9]),{12:[1,29]},o($V4,[2,11])],
-defaultActions: {3:[2,2],8:[2,1]},
+table: [{3:1,4:2,5:[1,3],7:4,8:5,9:$V0,10:7,12:$V1},{1:[3]},{5:[1,9],6:[1,10]},{1:[2,2]},o($V2,[2,4]),o($V2,[2,5]),o($V2,[2,6]),{8:12,10:7,11:11,12:[1,18],15:13,16:14,17:[1,15],18:$V3,19:16,20:[1,17]},{13:$V4,14:$V5},{1:[2,1]},{7:22,8:5,9:$V0,10:7,12:$V1},o($V2,[2,7]),o($V2,[2,8]),o($V2,[2,11]),o($V2,[2,12]),{12:[1,23],18:[1,24]},o($V2,[2,15]),{21:[1,25]},o($V2,$V6,{13:$V4,14:$V5}),o($V2,[2,17]),o($V7,[2,9]),{13:[1,26]},o($V2,[2,3]),o($V2,[2,13]),o($V2,[2,14]),{12:[1,28],15:27,18:$V3,19:16},o($V7,[2,10]),o($V2,[2,18]),o($V2,$V6)],
+defaultActions: {3:[2,2],9:[2,1]},
 parseError: function parseError (str, hash) {
     if (hash.recoverable) {
         this.trace(str);
@@ -613,11 +604,11 @@ case 0:/* skip */
 break;
 case 1:/* skip */
 break;
-case 2:return 14
+case 2:return 17
 break;
-case 3:return 11
+case 3:return 12
 break;
-case 4:return 17
+case 4:return 18
 break;
 case 5:return 5
 break;

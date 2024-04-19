@@ -12,12 +12,12 @@ MainPage : import('./mainPage'),
 React.version,
 console.log('【环境】', process),
 
-App() : (
-  state : useSelector((store #Store): store.appDataState),
-  appConfig : useSelector((store #Store): store.appConfigState),
+App: <>(
+  state : useSelector(<>(store: @ #Store, store.appDataState)),
+  appConfig : useSelector(<>(store: @ #Store, store.appConfigState)),
   dispatch : useDispatch(),
 
-  useEffect((): (
+  useEffect(<>(
     setWindowTitle(),
     BP_PV(machineIdSync())
   ), [])
@@ -40,3 +40,19 @@ App() : (
     </ConfigProvider>
   )
 )
+
+
+
+
+
+a: 1
+b?: 2
+b = a+1
+c: 3 # number // 此为数值类型
+d: <>(print('hello world'))
+d()
+f: <>(a: @, a + 1)
+f(1)
+j: <T>(a: @ #T, a)
+j<number>()
+<>b
